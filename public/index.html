@@ -1,43 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Real-Time Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .chat-scroll::-webkit-scrollbar { width: 6px; }
+        .chat-scroll::-webkit-scrollbar-track { background: transparent; }
+        .chat-scroll::-webkit-scrollbar-thumb { background-color: rgba(156, 163, 175, 0.3); border-radius: 20px; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col antialiased relative">
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <div id="username-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-2xl max-w-sm w-full text-center">
+            <div class="bg-indigo-600 w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-600/30">
+                <i class="fa-solid fa-user-tag text-white text-xl"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Enter Your Username</h3>
+            <p class="text-xs text-slate-400 mb-4">What should your friends call you in the chat lobby?</p>
+            <form id="username-form" class="space-y-3">
+                <input 
+                    id="username-input"
+                    type="text" 
+                    required 
+                    maxlength="15"
+                    placeholder="e.g., Alex_99" 
+                    class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-100 text-center"
+                />
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-xl transition">
+                    Join Chatroom
+                </button>
+            </form>
+        </div>
+    </div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <div id="chat-layout" class="hidden flex-grow flex flex-col h-screen overflow-hidden">
+        <header class="bg-slate-800 border-b border-slate-700 px-6 py-4 flex items-center justify-between shadow-md h-20 shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2.5 rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-comments text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-wide text-white">My Real-Time Chat</h1>
+                    <p class="text-xs text-emerald-400 flex items-center">
+                        <span class="h-2 w-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span>
+                        Logged in as: <span id="display-name" class="font-bold text-white ml-1"></span>
+                    </p>
+                </div>
+            </div>
+        </header>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+        <main class="flex-grow flex max-w-7xl w-full mx-auto p-4 md:p-6 gap-6 h-[calc(100vh-80px)] overflow-hidden">
+            <section class="w-64 bg-slate-800 rounded-2xl border border-slate-700 flex flex-col shadow-xl hidden md:flex overflow-hidden">
+                <div class="p-5 border-b border-slate-700 shrink-0">
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+                        <span>Active Peers</span>
+                        <span id="user-count-badge" class="bg-indigo-950 text-indigo-400 px-2 py-0.5 rounded-md text-[10px] border border-indigo-800/60">0 online</span>
+                    </h3>
+                </div>
+                <div id="active-users-list" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-2 bg-slate-900/10"></div>
+            </section>
+
+            <section class="flex-1 bg-slate-800 rounded-2xl border border-slate-700 flex flex-col shadow-xl overflow-hidden relative">
+                <div class="bg-slate-800/90 border-b border-slate-700 px-6 py-4 flex items-center justify-between shrink-0">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+                        <h2 class="font-semibold text-white text-sm md:text-base">#global-lobby</h2>
+                    </div>
+                </div>
+
+                <div id="messages-container" class="flex-1 p-6 overflow-y-auto chat-scroll space-y-4 bg-slate-900/40"></div>
+
+                <form id="chat-form" class="p-4 bg-slate-800 border-t border-slate-700 flex items-center gap-3 shrink-0">
+                    <input 
+                        id="message-input"
+                        type="text" 
+                        autocomplete="off" 
+                        placeholder="Write your message here..." 
+                        class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-100 placeholder-slate-500"
+                    />
+                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white p-3 rounded-xl flex items-center justify-center aspect-square transition">
+                        <i class="fa-solid fa-paper-plane text-sm"></i>
+                    </button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let myUsername = "";
+
+        const usernameModal = document.getElementById('username-modal');
+        const usernameForm = document.getElementById('username-form');
+        const usernameInput = document.getElementById('username-input');
+        const chatLayout = document.getElementById('chat-layout');
+        const displayName = document.getElementById('display-name');
+        
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+        const container = document.getElementById('messages-container');
+        const usersListContainer = document.getElementById('active-users-list');
+        const userCountBadge = document.getElementById('user-count-badge');
+
+        usernameForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const inputName = usernameInput.value.trim();
+            if (inputName) {
+                myUsername = inputName;
+                displayName.textContent = myUsername;
+                usernameModal.classList.add('hidden');
+                chatLayout.classList.remove('hidden');
+                socket.emit('store username', myUsername);
+            }
+        });
+
+        chatForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (messageInput.value.trim()) {
+                socket.emit('chat message', messageInput.value);
+                messageInput.value = '';
+            }
+        });
+
+        // Functional helper to format and append a single message card UI block
+        function appendMessageElement(data) {
+            const isMe = data.username === myUsername;
+            const alignment = isMe ? 'justify-end' : 'justify-start';
+            const bubbleStyle = isMe ? "bg-indigo-600 text-white border-indigo-500 rounded-br-sm" : "bg-slate-700 text-slate-100 border-slate-600 rounded-bl-sm";
+            const label = isMe ? 'You' : data.username;
+
+            const msgHtml = `
+                <div class="flex ${alignment} items-end space-x-2.5">
+                    <div class="max-w-[75%]">
+                        <span class="text-[11px] font-medium text-slate-400 block mb-1 px-1">${label}</span>
+                        <div class="${bubbleStyle} px-4 py-2.5 rounded-2xl shadow-sm text-sm break-words border">
+                            ${escapeHtml(data.text)}
+                        </div>
+                        <span class="text-[10px] text-slate-500 block mt-1 px-1 ${isMe ? 'text-right' : ''}">${data.timestamp}</span>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', msgHtml);
+        }
+
+        // Listen for new messages incoming live
+        socket.on('chat message', function(data) {
+            appendMessageElement(data);
+            container.scrollTop = container.scrollHeight;
+        });
+
+        // Listen for batch database historical loads when you first sign in
+        socket.on('load history', function(historyArray) {
+            container.innerHTML = ''; // wipe clear
+            historyArray.forEach(msg => {
+                appendMessageElement(msg);
+            });
+            container.scrollTop = container.scrollHeight;
+        });
+
+        // Listen for updating our side banner peer count
+        socket.on('update user list', function(activeUsernamesArray) {
+            usersListContainer.innerHTML = ''; 
+            userCountBadge.textContent = `${activeUsernamesArray.length} online`;
+
+            activeUsernamesArray.forEach(username => {
+                const isMe = username === myUsername;
+                const activeHtml = `
+                    <div class="flex items-center justify-between py-2 px-3 rounded-xl bg-slate-900/30 border border-slate-700/40 hover:border-slate-700/80 transition">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            <h4 class="text-xs font-semibold ${isMe ? 'text-indigo-400' : 'text-slate-200'}">
+                                ${username} ${isMe ? '(You)' : ''}
+                            </h4>
+                        </div>
+                    </div>
+                `;
+                usersListContainer.insertAdjacentHTML('beforeend', activeHtml);
+            });
+        });
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+    </script>
+</body>
 </html>
