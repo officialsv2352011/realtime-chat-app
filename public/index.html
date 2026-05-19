@@ -206,6 +206,13 @@
             <div class="theme-deco absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-thm-pri"></div>
             
             <div class="text-center">
+                <!-- Premium Dynamic SV Branding Header -->
+                <div class="flex flex-col items-center mb-6">
+                    <div class="border border-thm-pri/40 px-3.5 py-1.5 bg-thm-main/60 rounded-btn text-[10px] font-black tracking-[0.25em] text-thm-pri font-head uppercase animate-pulse shadow-glow">
+                        <i class="fa-solid fa-cube mr-2 text-thm-pri"></i>Made by sahil vaid
+                    </div>
+                </div>
+
                 <h3 class="text-2xl font-black text-thm-pri tracking-wider mb-2 font-head uppercase">System Access</h3>
                 <p class="text-xs text-thm-mut mb-8 uppercase tracking-wide">Enter network alias to establish linkage</p>
 
@@ -324,7 +331,7 @@
                         type="text" 
                         autocomplete="off" 
                         placeholder="ENTER SECURE PACKET CONTENT..." 
-                        class="flex-1 bg-thm-input border border-thm-bdr/40 focus:border-thm-pri rounded-btn px-4 py-3 text-xs md:text-sm focus:outline-none text-thm-txt placeholder-thm-mut tracking-wider transition-all"
+                        class="flex-1 bg-thm-input border border-thm-bdr/40 focus:border-[#00D9FF] rounded-btn px-4 py-3 text-xs md:text-sm focus:outline-none text-thm-txt placeholder-thm-mut tracking-wider transition-all"
                     />
                     <button type="submit" class="bg-thm-pri hover:bg-thm-priHov text-thm-main hover:text-thm-txt font-extrabold px-6 py-3.5 border border-thm-pri/60 flex items-center justify-center transition-all active:scale-95 shrink-0 shadow-glow rounded-btn">
                         <i class="fa-solid fa-paper-plane text-xs md:text-sm md:mr-2"></i>
@@ -544,9 +551,9 @@
                 const activeHtml = `
                     <div class="flex items-center justify-between py-2.5 px-3 bg-thm-panel border ${isMe ? 'border-thm-pri shadow-glow' : 'border-thm-bdr/50'} rounded-btn transition-colors duration-300">
                         <div class="flex items-center space-x-2.5 min-w-0">
-                            <span class="w-2 h-2 rounded-full ${isMe ? 'bg-thm-pri shadow-glow' : 'bg-thm-sec'}"></span>
+                            <span class="w-2 h-2 rounded-full ${isMe ? 'bg-thm-pri shadow-glow' : 'bg-[#2563EB]'}"></span>
                             <h4 class="text-xs font-bold truncate tracking-wider font-head ${isMe ? 'text-thm-pri' : 'text-thm-txt'}">
-                                ${username} ${isMe ? '<span class="text-[8px] text-thm-sec font-mono ml-1">_LOCAL</span>' : ''}
+                                ${username} ${isMe ? '<span class="text-[8px] text-[#2563EB] font-mono ml-1">_LOCAL</span>' : ''}
                             </h4>
                         </div>
                     </div>
