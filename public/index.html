@@ -211,6 +211,7 @@
                     <div class="border border-thm-pri/40 px-3.5 py-1.5 bg-thm-main/60 rounded-btn text-[10px] font-black tracking-[0.25em] text-thm-pri font-head uppercase animate-pulse shadow-glow">
                         <i class="fa-solid fa-cube mr-2 text-thm-pri"></i>Made by sahil vaishnav for the community<i class="fa-solid fa-cube ml-2 text-thm-pri"></i>
                     </div>
+                    </div>
                 </div>
 
                 <h3 class="text-2xl font-black text-thm-pri tracking-wider mb-2 font-head uppercase">System Access</h3>
@@ -343,60 +344,43 @@
     </div>
 
     <!-- Active System Engine Socket Management Scripts -->
-    <!-- Safe Script injection to avoid crashes if Socket.io is not hosted locally -->
+    <!-- Actual server socket.io loading script placed first -->
+    <script src="/socket.io/socket.io.js"></script>
     <script>
-        // Dynamic Fallback Guard for Socket.io
+        // Dynamic Fallback Guard for Socket.io (Runs ONLY if real script above failed to load/404)
         if (typeof io === 'undefined') {
-            console.log("Locating socket.io instance...");
-            // Temporary mock fallback system so webpage doesn't throw immediate runtime errors in isolated frame previews
+            console.log("Offline preview mode fallback active...");
             window.io = function() {
+                const listeners = {};
                 return {
                     on: function(event, callback) {
-                        console.log("Mock Listener registered for:", event);
-                        if (event === 'load history') {
-                            // Dummy history simulation if offline
-                            setTimeout(() => {
-                                callback([
-                                    {username: "CYBER_BOT", text: "Welcome to Guptlok Secure Chat. Offline Preview Mode is currently active.", timestamp: "12:00:00"}
-                                ]);
-                            }, 500);
-                        }
+                        listeners[event] = callback;
                     },
                     emit: function(event, data) {
-                        console.log("Mock Dispatcher emitted data on:", event, data);
+                        console.log("Mock emitted:", event, data);
                         if (event === 'chat message') {
-                            // Local loopback for mock testing
+                            // Simulate local echo after a small delay
                             const self = this;
                             setTimeout(() => {
-                                if(self._on_message) self._on_message({
-                                    username: myUsername || "ANONYMOUS",
-                                    text: data,
-                                    timestamp: new Date().toLocaleTimeString('en-IN', {hour12: false})
-                                });
+                                if (listeners['chat message']) {
+                                    listeners['chat message']({
+                                        username: myUsername || "ANONYMOUS",
+                                        text: data,
+                                        timestamp: new Date().toLocaleTimeString('en-IN', {
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            second: '2-digit',
+                                            hour12: false
+                                        })
+                                    });
+                                }
                             }, 100);
                         }
-                    },
-                    _on_message: null
+                    }
                 };
             };
-            
-            // Custom helper map to link simulated socket
-            setTimeout(() => {
-                if (window.socket) {
-                    window.socket.on('chat message', function(data) {
-                        appendMessageElement(data);
-                        container.scrollTop = container.scrollHeight;
-                    });
-                    window.socket._on_message = function(data) {
-                        // Forward loop back
-                        appendMessageElement(data);
-                        container.scrollTop = container.scrollHeight;
-                    };
-                }
-            }, 1000);
         }
     </script>
-    <script src="/socket.io/socket.io.js"></script>
     <script>
         // --- MULTI-THEME ENGINE CONTROLLER ---
         function setTheme(themeName) {
@@ -448,7 +432,6 @@
 
         // --- CORE SOCKET COMMUNICATOR ENGINE ---
         const socket = io();
-        window.socket = socket; // Export to global namespace for safe injection link helper
         let myUsername = "";
 
         const usernameModal = document.getElementById('username-modal');
