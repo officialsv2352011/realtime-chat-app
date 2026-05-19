@@ -10,7 +10,7 @@ app.use(express.static(__dirname + '/public'));
 const historyFilePath = path.join(__dirname, 'messages.json');
 const users = {};
 
-// Helper tool to generate current standard India time string securely
+// India (IST) ka perfect time lane ke liye tool
 function getIndiaTime() {
     return new Date().toLocaleTimeString('en-IN', {
         timeZone: 'Asia/Kolkata',
@@ -27,7 +27,7 @@ function getChatHistory() {
             return JSON.parse(fileData || '[]');
         }
     } catch (err) {
-        console.error("Error reading history file, starting fresh:", err);
+        console.error("Error reading history file:", err);
     }
     return [];
 }
@@ -44,11 +44,8 @@ function saveToHistory(messageObject) {
 }
 
 io.on('connection', (socket) => {
-    console.log('A temporary connection established.');
-
     socket.on('store username', (username) => {
         users[socket.id] = username;
-        console.log(`${username} has officially joined.`);
         io.emit('update user list', Object.values(users));
 
         const pastMessages = getChatHistory();
@@ -61,7 +58,7 @@ io.on('connection', (socket) => {
         const messageData = {
             text: msg,
             username: senderName,
-            timestamp: getIndiaTime() // Proper Indian time stamp injected
+            timestamp: getIndiaTime() // Indian Time save ho raha hai
         };
 
         saveToHistory(messageData);
@@ -70,7 +67,6 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         if (users[socket.id]) {
-            console.log(`${users[socket.id]} disconnected.`);
             delete users[socket.id];
             io.emit('update user list', Object.values(users));
         }

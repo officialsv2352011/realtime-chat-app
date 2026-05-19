@@ -20,7 +20,7 @@
                 <i class="fa-solid fa-user-shield text-white text-2xl"></i>
             </div>
             <h3 class="text-xl font-extrabold text-white tracking-tight mb-2">Identify Yourself</h3>
-            <p class="text-xs text-slate-400 mb-6">Enter a secret alias to join the dynamic lounge</p>
+            <p class="text-xs text-slate-400 mb-6">Enter an alias to join the dynamic lounge</p>
             <form id="username-form" class="space-y-4">
                 <input 
                     id="username-input"
@@ -99,7 +99,6 @@
         const socket = io();
         let myUsername = "";
 
-        // UI Interfaces Mapping
         const usernameModal = document.getElementById('username-modal');
         const usernameForm = document.getElementById('username-form');
         const usernameInput = document.getElementById('username-input');
@@ -116,7 +115,7 @@
         const sidebarOverlay = document.getElementById('sidebar-overlay');
         const mobileToggle = document.getElementById('mobile-sidebar-toggle');
 
-        // Mobile Sidebar Mechanism Control Drawer
+        // Mobile sidebar animation logic
         function toggleMobileSidebar() {
             sidebarPanel.classList.toggle('-translate-x-full');
             sidebarOverlay.classList.toggle('hidden');
@@ -148,7 +147,6 @@
             const isMe = data.username === myUsername;
             const alignment = isMe ? 'justify-end' : 'justify-start';
             
-            // Premium Glassmorphism styling blocks
             const bubbleStyle = isMe 
                 ? "bg-gradient-to-br from-indigo-600 to-indigo-700 text-white border-indigo-500/30 rounded-2xl rounded-tr-none shadow-md shadow-indigo-600/10" 
                 : "bg-slate-900 border-slate-800/80 text-slate-100 rounded-2xl rounded-tl-none shadow-sm shadow-black/10";
@@ -156,7 +154,7 @@
             const label = isMe ? 'You' : data.username;
 
             const msgHtml = `
-                <div class="flex ${alignment} items-end animate-fade-in px-1">
+                <div class="flex ${alignment} items-end px-1">
                     <div class="max-w-[85%] md:max-w-[70%]">
                         ${!isMe ? `<span class="text-[10px] font-bold text-indigo-400/90 tracking-wide block mb-1 ml-1">${label}</span>` : ''}
                         <div class="${bubbleStyle} px-4 py-3 text-xs md:text-sm break-words border leading-relaxed">
