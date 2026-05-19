@@ -3,90 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GuptLok Chat Lounge</title>
+    <title>GUPTLOK // CYBER-CHAT</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Cyberpunk Web Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        mono: ['Share Tech Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        .chat-scroll::-webkit-scrollbar { width: 4px; }
-        .chat-scroll::-webkit-scrollbar-track { background: transparent; }
-        .chat-scroll::-webkit-scrollbar-thumb { background-color: rgba(99, 102, 241, 0.2); border-radius: 20px; }
+        /* Cyberpunk Grid Background Pattern with Custom Background Color #0B1020 */
+        .cyber-grid {
+            background-color: #0B1020;
+            background-image: 
+                linear-gradient(rgba(0, 217, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 217, 255, 0.04) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Custom Neon Blue Scrollbar */
+        .chat-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-scroll::-webkit-scrollbar-track {
+            background: #0B1020;
+            border-left: 1px solid #111827;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background-color: #00D9FF;
+            border-radius: 0px;
+            box-shadow: 0 0 10px #00D9FF;
+        }
+
+        /* Scanline Animation Effect */
+        .scanline {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 217, 255, 0.02) 50%,
+                rgba(0, 217, 255, 0.02)
+            );
+            background-size: 100% 4px;
+        }
+
+        /* Cyberpunk Glitch Box Shadow using Neon Blue */
+        .cyber-shadow-neon {
+            box-shadow: 0px 0px 15px rgba(0, 217, 255, 0.25);
+        }
+        .cyber-shadow-secondary {
+            box-shadow: 0px 0px 15px rgba(37, 99, 247, 0.2);
+        }
+        
+        /* Cyberpunk Clip Paths for Futuristic Angular Edges */
+        .cyber-clip {
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+        }
+        .cyber-clip-sm {
+            clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+        }
+
+        /* Message Arrival Cyber Blink Effect */
+        @keyframes cyberBlink {
+            0% { opacity: 0.3; border-color: #2563EB; }
+            50% { opacity: 1; border-color: #00D9FF; }
+            100% { opacity: 1; }
+        }
+        .msg-arrival {
+            animation: cyberBlink 0.4s ease-out;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased relative font-sans select-none">
+<body class="cyber-grid text-[#E2E8F0] min-h-screen flex flex-col antialiased relative font-mono scanline overflow-hidden">
 
-    <div id="username-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-xl z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-900/60 border border-slate-800/80 p-8 rounded-3xl shadow-2xl max-w-sm w-full text-center backdrop-blur-md">
-            <div class="bg-gradient-to-tr from-indigo-600 to-violet-500 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-xl shadow-indigo-500/20">
-                <i class="fa-solid fa-user-shield text-white text-2xl"></i>
+    <!-- Cyberpunk Login Overlay Screen -->
+    <div id="username-modal" class="fixed inset-0 bg-[#0B1020]/95 z-50 flex items-center justify-center p-4 border-4 border-[#00D9FF]/10">
+        <div class="bg-[#111827]/95 border-2 border-[#00D9FF] p-8 w-full max-w-md relative cyber-clip shadow-[0_0_30px_rgba(0,217,255,0.15)]">
+            <!-- Decorative Corners -->
+            <div class="absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-[#00D9FF]"></div>
+            <div class="absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-[#00D9FF]"></div>
+            <div class="absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-[#00D9FF]"></div>
+            
+            <div class="text-center">
+                <div class="text-[#00D9FF] font-bold tracking-widest text-[10px] mb-2 font-orbitron">SYSTEM INTRUSION DETECTED</div>
+                <div class="h-[2px] bg-gradient-to-r from-transparent via-[#00D9FF] to-transparent w-full mb-6"></div>
+                
+                <h3 class="text-2xl font-black text-[#00D9FF] tracking-wider mb-2 font-orbitron uppercase">SECURE ACCESS</h3>
+                <p class="text-xs text-[#E2E8F0]/75 mb-6 uppercase tracking-wide">Enter network alias to establish linkage</p>
+                
+                <form id="username-form" class="space-y-5">
+                    <div class="relative">
+                        <input 
+                            id="username-input"
+                            type="text" 
+                            required 
+                            maxlength="15"
+                            placeholder="NICKNAME_PROMPT" 
+                            class="w-full bg-[#0B1020] border border-[#00D9FF]/50 rounded-none px-4 py-3.5 text-sm focus:outline-none focus:border-[#00D9FF] text-[#00D9FF] text-center font-bold tracking-wider placeholder-[#00D9FF]/20 uppercase transition-all"
+                        />
+                        <div class="absolute right-3 top-1/2 -translate-y-1/2 text-[#00D9FF]/40 text-xs">SYS_V2.0</div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-[#00D9FF] hover:bg-[#2563EB] text-[#0B1020] hover:text-[#E2E8F0] font-extrabold py-3.5 tracking-widest text-xs uppercase font-orbitron border-2 border-transparent hover:border-[#00D9FF] hover:shadow-[0_0_15px_rgba(0,217,255,0.4)] transition-all active:scale-[0.98]">
+                        INITIALIZE NETWORK
+                    </button>
+                </form>
             </div>
-            <h3 class="text-xl font-extrabold text-white tracking-tight mb-2">Identify Yourself</h3>
-            <p class="text-xs text-slate-400 mb-6">Enter an alias to join the dynamic lounge</p>
-            <form id="username-form" class="space-y-4">
-                <input 
-                    id="username-input"
-                    type="text" 
-                    required 
-                    maxlength="15"
-                    placeholder="Enter nickname..." 
-                    class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-100 text-center font-medium placeholder-slate-600 transition-all"
-                />
-                <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold py-3 rounded-2xl transition-all shadow-lg shadow-indigo-600/20 active:scale-[0.98]">
-                    Enter GuptLok
-                </button>
-            </form>
         </div>
     </div>
 
+    <!-- Main Cyberpunk Interface -->
     <div id="chat-layout" class="hidden flex flex-col h-screen overflow-hidden">
         
-        <header class="bg-slate-900/40 border-b border-slate-900 px-4 md:px-6 py-4 flex items-center justify-between shadow-sm h-20 shrink-0 backdrop-blur-md z-10 relative">
-            <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-br from-indigo-600 to-violet-600 p-2.5 rounded-xl flex items-center justify-center shadow-md shadow-indigo-600/10">
-                    <i class="fa-solid fa-bolt text-white text-lg"></i>
+        <!-- Cyber Bar / Header -->
+        <header class="bg-[#111827] border-b-2 border-[#00D9FF] px-4 md:px-6 py-3 flex items-center justify-between shadow-lg h-20 shrink-0 relative z-10">
+            <!-- Cyber Neon Bars -->
+            <div class="absolute top-0 left-0 right-0 h-[3px] bg-[#00D9FF] shadow-[0_0_10px_#00D9FF]"></div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="bg-[#00D9FF]/10 border border-[#00D9FF]/50 p-2.5 flex items-center justify-center shadow-[0_0_10px_rgba(0,217,255,0.15)]">
+                    <i class="fa-solid fa-terminal text-[#00D9FF] text-lg animate-pulse"></i>
                 </div>
                 <div>
-                    <h1 class="font-black text-base md:text-lg tracking-tight text-white flex items-center gap-1.5">
-                        GuptLok <span class="text-xs font-medium text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-md border border-indigo-500/10">v2.0</span>
+                    <h1 class="font-black text-sm md:text-lg tracking-wider text-[#00D9FF] font-orbitron uppercase flex items-center gap-2">
+                        GUPTLOK <span class="text-[9px] font-bold text-[#2563EB] bg-[#2563EB]/10 px-1.5 py-0.5 border border-[#2563EB]/20 font-mono tracking-normal">SECURE_DUNK</span>
                     </h1>
-                    <p class="text-[11px] text-slate-400 flex items-center mt-0.5">
-                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
-                        Alias: <span id="display-name" class="font-bold text-slate-200 ml-1"></span>
+                    <p class="text-[10px] text-[#E2E8F0]/75 flex items-center mt-0.5 tracking-wider uppercase">
+                        <span class="h-2 w-2 bg-[#00D9FF] mr-2 animate-ping shadow-[0_0_8px_#00D9FF]"></span>
+                        NODAL ALIAS: <span id="display-name" class="font-bold text-[#00D9FF] ml-1"></span>
                     </p>
                 </div>
             </div>
 
-            <button id="mobile-sidebar-toggle" class="md:hidden bg-slate-900 border border-slate-800 text-slate-300 p-2.5 rounded-xl hover:text-white transition-all active:scale-95">
+            <!-- Mobile Drawer User Toggle -->
+            <button id="mobile-sidebar-toggle" class="md:hidden bg-[#0B1020] border border-[#00D9FF] text-[#00D9FF] p-2.5 hover:bg-[#00D9FF]/10 transition-all active:scale-95 shadow-[0_0_8px_rgba(0,217,255,0.2)]">
                 <i class="fa-solid fa-users text-sm"></i>
             </button>
         </header>
 
+        <!-- Main Workspace Split-Grid -->
         <main class="flex-grow flex w-full mx-auto relative h-[calc(100vh-80px)] overflow-hidden">
             
-            <section id="sidebar-panel" class="w-64 bg-slate-950 border-r border-slate-900 flex flex-col absolute md:static inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-20 md:z-0 shrink-0 h-full">
-                <div class="p-5 border-b border-slate-900 flex items-center justify-between shrink-0 bg-slate-950">
-                    <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center justify-between w-full">
-                        <span>Active Network</span>
-                        <span id="user-count-badge" class="bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded-md text-[10px] border border-indigo-500/10 font-bold">0 online</span>
+            <!-- Left Cyber Sidebar Drawer (Full Slide-In For Mobile/Desktop) -->
+            <section id="sidebar-panel" class="w-64 bg-[#111827] border-r-2 border-[#2563EB] flex flex-col absolute md:static inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-20 md:z-0 shrink-0 h-full">
+                <!-- Top neon wire -->
+                <div class="absolute top-0 left-0 right-0 h-[2px] bg-[#2563EB] shadow-[0_0_8px_#2563EB]"></div>
+                
+                <div class="p-5 border-b border-[#2563EB]/30 flex items-center justify-between shrink-0 bg-[#0B1020]">
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-[#00D9FF] flex items-center justify-between w-full font-orbitron">
+                        <span>NETWORK PEERS</span>
+                        <span id="user-count-badge" class="bg-[#00D9FF]/10 text-[#00D9FF] px-2 py-0.5 rounded-none text-[9px] border border-[#00D9FF]/20 font-bold">0 Active</span>
                     </h3>
                 </div>
-                <div id="active-users-list" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-2 bg-slate-950"></div>
+                
+                <!-- Online Users Dynamic Terminal Area -->
+                <div id="active-users-list" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-2 bg-[#0B1020]/40"></div>
             </section>
 
-            <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-15 hidden md:hidden"></div>
+            <!-- Adaptive backdrop overlay for mobile screen drawer -->
+            <div id="sidebar-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-15 hidden md:hidden"></div>
 
-            <section class="flex-1 bg-slate-900/10 flex flex-col overflow-hidden h-full relative">
-                <div id="messages-container" class="flex-1 p-4 md:p-6 overflow-y-auto chat-scroll space-y-4 bg-gradient-to-b from-slate-950 to-slate-900/20"></div>
+            <!-- Central Chat Log Grid Terminal -->
+            <section class="flex-1 bg-black/20 flex flex-col overflow-hidden h-full relative p-2 md:p-4">
+                
+                <!-- Main Chat Room Border Container -->
+                <div class="flex-grow flex flex-col bg-[#111827]/30 border border-[#2563EB]/20 relative overflow-hidden h-full">
+                    
+                    <!-- Tactical HUD Header inside Chat Room -->
+                    <div class="bg-[#111827]/80 border-b border-[#2563EB]/20 px-4 py-2 flex items-center justify-between text-[10px] text-[#00D9FF]/70 tracking-widest font-bold">
+                        <div><i class="fa-solid fa-shield-halved mr-1.5 animate-pulse"></i> SECURE_GRID_STREAM</div>
+                        <div id="transmission-speed"><i class="fa-solid fa-wifi mr-1"></i> 100% DISK_SYNC</div>
+                    </div>
 
-                <form id="chat-form" class="p-4 bg-slate-950/80 border-t border-slate-900/60 flex items-center gap-2.5 shrink-0 backdrop-blur-md">
+                    <!-- Decortive Corners for Chat Room -->
+                    <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#00D9FF]/50"></div>
+                    <div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-[#00D9FF]/50"></div>
+                    <div class="absolute bottom-16 left-0 w-2 h-2 border-b border-l border-[#00D9FF]/50"></div>
+                    <div class="absolute bottom-16 right-0 w-2 h-2 border-b border-r border-[#00D9FF]/50"></div>
+
+                    <!-- Messages Window Frame -->
+                    <div id="messages-container" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-4 bg-gradient-to-b from-[#0B1020]/60 to-[#111827]/10"></div>
+                </div>
+
+                <!-- Input Cyber Interface Dock -->
+                <form id="chat-form" class="mt-2 p-3 bg-[#111827] border border-[#00D9FF]/40 flex items-center gap-2.5 shrink-0 relative">
+                    <!-- Top Mini-Tag -->
+                    <div class="absolute -top-3 left-4 bg-[#00D9FF]/10 border border-[#00D9FF]/30 text-[#00D9FF] text-[8px] px-2 py-0.5 font-bold tracking-widest">TRANSMIT_SEC_01</div>
+                    
                     <input 
                         id="message-input"
                         type="text" 
                         autocomplete="off" 
-                        placeholder="Type a secure message..." 
-                        class="flex-1 bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/80 text-slate-100 placeholder-slate-600 transition-all shadow-inner"
+                        placeholder="ENTER SECURE PACKET CONTENT..." 
+                        class="flex-1 bg-[#0B1020] border border-[#2563EB]/40 focus:border-[#00D9FF] rounded-none px-4 py-3 text-xs md:text-sm focus:outline-none text-[#E2E8F0] placeholder-[#E2E8F0]/30 tracking-wider transition-all"
                     />
-                    <button type="submit" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white p-3.5 rounded-xl flex items-center justify-center aspect-square transition-all shadow-md shadow-indigo-600/10 active:scale-95 shrink-0">
-                        <i class="fa-solid fa-paper-plane text-xs md:text-sm"></i>
+                    
+                    <button type="submit" class="bg-[#00D9FF] hover:bg-[#2563EB] text-[#0B1020] hover:text-[#E2E8F0] font-extrabold px-6 py-3.5 border border-[#00D9FF]/60 flex items-center justify-center transition-all active:scale-95 shrink-0 shadow-[0_0_10px_rgba(0,217,255,0.2)]">
+                        <i class="fa-solid fa-satellite-dish text-xs md:text-sm mr-2"></i>
+                        <span class="text-xs uppercase font-orbitron font-extrabold tracking-widest hidden sm:inline">TRANSMIT</span>
                     </button>
                 </form>
             </section>
@@ -94,11 +220,13 @@
         </main>
     </div>
 
+    <!-- Socket.io System Engine Integration -->
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
         let myUsername = "";
 
+        // Elements Mapping
         const usernameModal = document.getElementById('username-modal');
         const usernameForm = document.getElementById('username-form');
         const usernameInput = document.getElementById('username-input');
@@ -114,8 +242,9 @@
         const sidebarPanel = document.getElementById('sidebar-panel');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
         const mobileToggle = document.getElementById('mobile-sidebar-toggle');
+        const transmissionSpeed = document.getElementById('transmission-speed');
 
-        // Mobile sidebar animation logic
+        // Toggle mobile menu drawer
         function toggleMobileSidebar() {
             sidebarPanel.classList.toggle('-translate-x-full');
             sidebarOverlay.classList.toggle('hidden');
@@ -125,7 +254,7 @@
 
         usernameForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const inputName = usernameInput.value.trim();
+            const inputName = usernameInput.value.trim().toUpperCase(); // Cyberpunk caps
             if (inputName) {
                 myUsername = inputName;
                 displayName.textContent = myUsername;
@@ -139,6 +268,13 @@
             e.preventDefault();
             if (messageInput.value.trim()) {
                 socket.emit('chat message', messageInput.value);
+                
+                // Active feedback link on submission
+                transmissionSpeed.classList.add('text-[#00D9FF]', 'animate-ping');
+                setTimeout(() => {
+                    transmissionSpeed.classList.remove('text-[#00D9FF]', 'animate-ping');
+                }, 500);
+
                 messageInput.value = '';
             }
         });
@@ -147,20 +283,24 @@
             const isMe = data.username === myUsername;
             const alignment = isMe ? 'justify-end' : 'justify-start';
             
+            // Neon Glitch aesthetics using Card Color #111827 and specific accent borders
             const bubbleStyle = isMe 
-                ? "bg-gradient-to-br from-indigo-600 to-indigo-700 text-white border-indigo-500/30 rounded-2xl rounded-tr-none shadow-md shadow-indigo-600/10" 
-                : "bg-slate-900 border-slate-800/80 text-slate-100 rounded-2xl rounded-tl-none shadow-sm shadow-black/10";
+                ? "bg-[#111827]/90 border border-[#00D9FF] text-[#E2E8F0] cyber-shadow-neon rounded-none" 
+                : "bg-[#111827]/90 border border-[#2563EB] text-[#E2E8F0] cyber-shadow-secondary rounded-none";
             
-            const label = isMe ? 'You' : data.username;
+            const label = isMe ? 'SYS_USER_ME' : `SECURE_PEER_${data.username}`;
+            const glowText = isMe ? 'text-[#00D9FF]' : 'text-[#2563EB]';
 
             const msgHtml = `
-                <div class="flex ${alignment} items-end px-1">
-                    <div class="max-w-[85%] md:max-w-[70%]">
-                        ${!isMe ? `<span class="text-[10px] font-bold text-indigo-400/90 tracking-wide block mb-1 ml-1">${label}</span>` : ''}
-                        <div class="${bubbleStyle} px-4 py-3 text-xs md:text-sm break-words border leading-relaxed">
+                <div class="flex ${alignment} items-end px-1 msg-arrival">
+                    <div class="max-w-[85%] md:max-w-[70%] relative">
+                        <span class="text-[9px] font-bold ${glowText} tracking-widest block mb-1.5 ml-1 font-orbitron uppercase">${label}</span>
+                        <div class="${bubbleStyle} px-4 py-3 text-xs md:text-sm break-words cyber-clip-sm relative">
+                            <!-- Cyber styling details -->
+                            <div class="absolute top-0 right-0 w-2.5 h-2.5 ${isMe ? 'bg-[#00D9FF]' : 'bg-[#2563EB]'}"></div>
                             ${escapeHtml(data.text)}
                         </div>
-                        <span class="text-[9px] text-slate-500 font-medium block mt-1 mx-1 ${isMe ? 'text-right' : ''}">${data.timestamp}</span>
+                        <span class="text-[8px] text-[#E2E8F0]/40 font-bold block mt-1.5 mx-1 font-mono uppercase tracking-widest ${isMe ? 'text-right' : ''}">TIMESTAMP: ${data.timestamp}</span>
                     </div>
                 </div>
             `;
@@ -180,16 +320,16 @@
 
         socket.on('update user list', function(activeUsernamesArray) {
             usersListContainer.innerHTML = ''; 
-            userCountBadge.textContent = `${activeUsernamesArray.length} online`;
+            userCountBadge.textContent = `${activeUsernamesArray.length} Online`;
 
             activeUsernamesArray.forEach(username => {
                 const isMe = username === myUsername;
                 const activeHtml = `
-                    <div class="flex items-center justify-between py-2.5 px-3 rounded-xl bg-slate-900/30 border border-slate-900/40 hover:border-slate-800/40 transition-all duration-200">
+                    <div class="flex items-center justify-between py-2.5 px-3 bg-[#111827] border ${isMe ? 'border-[#00D9FF]' : 'border-[#2563EB]/45'} hover:border-[#00D9FF]/75 transition-all duration-200">
                         <div class="flex items-center space-x-2.5 min-w-0">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-400"></span>
-                            <h4 class="text-xs font-semibold truncate ${isMe ? 'text-indigo-400' : 'text-slate-300'}">
-                                ${username} ${isMe ? '<span class="text-[10px] opacity-60 font-normal ml-0.5">(You)</span>' : ''}
+                            <span class="w-2 h-2 rounded-none ${isMe ? 'bg-[#00D9FF] shadow-[0_0_8px_#00D9FF]' : 'bg-[#2563EB] shadow-[0_0_8px_#2563EB]'}"></span>
+                            <h4 class="text-xs font-bold truncate tracking-wider font-orbitron ${isMe ? 'text-[#00D9FF]' : 'text-[#E2E8F0]'}">
+                                ${username} ${isMe ? '<span class="text-[8px] text-[#2563EB] font-mono font-normal ml-1">_LOCAL</span>' : ''}
                             </h4>
                         </div>
                     </div>
