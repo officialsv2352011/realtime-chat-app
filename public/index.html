@@ -348,9 +348,8 @@
             appId: "1:30034004005:web:82da1df2ab02c0"
         };
 
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : defaultFirebaseConfig;
-        const rawAppId = typeof __app_id !== 'undefined' ? __app_id : 'guptlok-default-id';
-        const appId = rawAppId.replace(/\//g, '_');
+        const firebaseConfig = defaultFirebaseConfig;
+        const appId = 'guptlok_main_global_room'; // Sabhi users ke liye ab ek hi room lock ho gaya
 
         let isLocalMode = false;
         let localMessages = []; 
