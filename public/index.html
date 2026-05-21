@@ -91,7 +91,6 @@
             --bg-pattern: none;
         }
 
-        /* Essential Theme System Bindings */
         body {
             background-color: var(--bg-main);
             background-image: var(--bg-pattern);
@@ -103,7 +102,6 @@
         .chat-scroll::-webkit-scrollbar-track { background: transparent; }
         .chat-scroll::-webkit-scrollbar-thumb { background-color: var(--pri); }
 
-        /* Cyberpunk Decorative Elements */
         .theme-deco { display: none; }
         .theme-cyber .theme-deco, .theme-hacker .theme-deco { display: block; }
         
@@ -117,7 +115,6 @@
             clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
         }
 
-        /* Message Entry Glow Animation */
         @keyframes entryGlow {
             0% { opacity: 0.3; border-color: var(--sec); }
             50% { opacity: 1; border-color: var(--pri); }
@@ -127,14 +124,12 @@
             animation: entryGlow 0.4s ease-out;
         }
 
-        /* Message action container trigger handling visibility elements */
         .msg-container-box:hover .msg-action-trigger {
             opacity: 1;
         }
     </style>
 
     <script>
-        // Dynamic CSS variables mapping inside Tailwind CSS configuration
         tailwind.config = {
             theme: {
                 extend: {
@@ -174,7 +169,6 @@
 <body class="text-thm-txt min-h-screen flex flex-col antialiased relative font-body overflow-hidden">
 
     <div id="username-modal" class="fixed inset-0 bg-thm-main/95 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-        
         <div class="absolute top-4 right-4 md:top-6 md:right-6 z-50">
             <div class="relative inline-block text-left">
                 <button id="login-theme-dropdown-btn" class="bg-thm-panel border border-thm-pri text-thm-pri px-3 py-2 text-xs font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-pri/10 transition-all flex items-center gap-1.5 shadow-glow focus:outline-none active:scale-95">
@@ -182,7 +176,6 @@
                     <span>Theme</span>
                     <i class="fa-solid fa-caret-down text-[10px]"></i>
                 </button>
-                
                 <div id="login-theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-thm-panel border-2 border-thm-pri rounded-btn shadow-xl py-1.5 z-40 transition-all">
                     <button type="button" onclick="setTheme('theme-normal'); toggleLoginThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#f8fafc] hover:bg-indigo-500/10 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Normal Theme
@@ -198,21 +191,18 @@
         </div>
 
         <div class="bg-thm-panel border-2 border-thm-pri p-8 w-full max-w-md relative cyber-clip shadow-glow transition-all duration-300 rounded-main">
-            
             <div class="theme-deco absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-thm-pri"></div>
             <div class="theme-deco absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-thm-pri"></div>
             <div class="theme-deco absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-thm-pri"></div>
-            
             <div class="text-center">
                 <div class="flex flex-col items-center mb-6">
                     <div class="border border-thm-pri/40 px-3.5 py-1.5 bg-thm-main/60 rounded-btn text-[10px] font-black tracking-[0.25em] text-thm-pri font-head uppercase animate-pulse shadow-glow">
-                        <i class="fa-solid fa-cube mr-2 text-thm-pri"></i>Made by sahil vaid
+                        <i class="fa-solid fa-cube mr-2 text-thm-pri"></i>Made by sahil vaishnav for the community<i class="fa-solid fa-cube ml-2 text-thm-pri"></i>
+                    </div>
                     </div>
                 </div>
-
                 <h3 class="text-2xl font-black text-thm-pri tracking-wider mb-2 font-head uppercase">System Access</h3>
                 <p class="text-xs text-thm-mut mb-8 uppercase tracking-wide">Enter network alias to establish linkage</p>
-
                 <form id="username-form" class="space-y-5">
                     <input 
                         id="username-input"
@@ -246,10 +236,8 @@
     </div>
 
     <div id="chat-layout" class="hidden flex flex-col h-screen overflow-hidden">
-        
         <header class="bg-thm-panel border-b-2 border-thm-pri px-4 md:px-6 py-3 flex items-center justify-between shadow-lg h-20 shrink-0 relative z-10 transition-colors duration-300">
             <div class="theme-deco absolute top-0 left-0 right-0 h-[3px] bg-thm-pri shadow-glow"></div>
-            
             <div class="flex items-center space-x-2 md:space-x-4">
                 <div class="border border-thm-bdr p-2 flex items-center justify-center rounded-main bg-thm-main/40 shrink-0">
                     <i class="fa-solid fa-terminal text-thm-pri text-sm md:text-lg animate-pulse"></i>
@@ -272,7 +260,6 @@
                         <span class="hidden sm:inline">Theme</span>
                         <i class="fa-solid fa-caret-down text-[10px]"></i>
                     </button>
-                    
                     <div id="theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-thm-panel border-2 border-thm-pri rounded-btn shadow-xl py-1.5 z-40 transition-all">
                         <button onclick="setTheme('theme-normal'); toggleThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#f8fafc] hover:bg-indigo-500/10 flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Normal Theme
@@ -285,7 +272,6 @@
                         </button>
                     </div>
                 </div>
-
                 <button id="mobile-sidebar-toggle" class="md:hidden bg-thm-main border border-thm-pri text-thm-pri p-2.5 rounded-btn transition-all active:scale-95 shadow-glow">
                     <i class="fa-solid fa-users text-sm"></i>
                 </button>
@@ -293,7 +279,6 @@
         </header>
 
         <main class="flex-grow flex w-full mx-auto relative h-[calc(100vh-80px)] overflow-hidden">
-            
             <section id="sidebar-panel" class="w-64 bg-thm-panel border-r-2 border-thm-bdr flex flex-col absolute md:static inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out z-20 md:z-0 shrink-0 h-full">
                 <div class="p-5 border-b border-thm-bdr/30 flex items-center justify-between shrink-0 bg-thm-panel">
                     <h3 class="text-[10px] font-bold uppercase tracking-widest text-thm-pri flex items-center justify-between w-full font-head">
@@ -314,11 +299,10 @@
             <div id="sidebar-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-15 hidden md:hidden"></div>
 
             <section class="flex-1 bg-black/10 flex flex-col overflow-hidden h-full relative p-2 md:p-4">
-                
                 <div class="flex-grow flex flex-col bg-thm-panel/30 border border-thm-bdr/30 relative overflow-hidden h-full rounded-main">
                     <div class="bg-thm-panel/50 border-b border-thm-bdr/20 px-4 py-2 flex items-center justify-between text-[10px] text-thm-pri/70 tracking-widest font-bold font-head">
                         <div><i class="fa-solid fa-shield-halved mr-1.5 animate-pulse"></i> SECURE_GRID_STREAM</div>
-                        <div id="transmission-speed"><i class="fa-solid fa-wifi mr-1"></i> CLOUD_SYNC_ACTIVE</div>
+                        <div id="transmission-speed"><i class="fa-solid fa-wifi mr-1"></i> CONNECTING_NETWORK...</div>
                     </div>
 
                     <div class="theme-deco absolute top-0 left-0 w-2 h-2 border-t border-l border-thm-pri"></div>
@@ -331,7 +315,6 @@
 
                 <form id="chat-form" class="mt-2 p-3 bg-thm-panel border border-thm-bdr/50 flex items-center gap-2.5 shrink-0 relative rounded-main">
                     <div class="theme-deco absolute -top-3 left-4 bg-thm-panel border border-thm-bdr/30 text-thm-pri text-[8px] px-2 py-0.5 font-bold tracking-widest font-head">TRANSMIT_SEC_01</div>
-                    
                     <input 
                         id="message-input"
                         type="text" 
@@ -353,45 +336,36 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Firebase Configuration
-
+        // =========================================================================
+        // ⚡ FIREBASE CONFIGURATION (AUTOMATICALLY UPDATED FOR MY-CHAT-APP-9B122F)
+        // =========================================================================
         const defaultFirebaseConfig = {
-          apiKey: "AIzaSyA3zCxlycuQpUI_IqqevZHfFskCiiCCUVo",
-          authDomain: "my-chat-app-a2010.firebaseapp.com",
-          projectId: "my-chat-app-a2010",
-          storageBucket: "my-chat-app-a2010.firebasestorage.app",
-          messagingSenderId: "397957848183",
-          appId: "1:397957848183:web:01cacbb79a025897e63a72",
-          measurementId: "G-JRFS8DMZP0"
+            apiKey: "AIzaSyA3zCxlycuQpUI_IqqevZHfFskCiiCCUVo", // <-- ⚠️ BHAI YAHA APNI ASLI API KEY PASTE KAR DENA BAS!
+            authDomain: "my-chat-app-9b122f.firebaseapp.com",
+            projectId: "my-chat-app-9b122f", 
+            storageBucket: "my-chat-app-9b122f.appspot.com",
+            messagingSenderId: "30034004005",
+            appId: "1:30034004005:web:82da1df2ab02c0"
         };
 
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : defaultFirebaseConfig;
-        
-        // BUG FIX: Replacing any slashes in __app_id with underscores so the Firestore path stays intact.
         const rawAppId = typeof __app_id !== 'undefined' ? __app_id : 'guptlok-default-id';
         const appId = rawAppId.replace(/\//g, '_');
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        let isLocalMode = false;
+        let localMessages = []; 
+        let app, auth, db;
 
-        // UI Interfaces Mapping
         const loginBtn = document.getElementById('login-submit-btn');
         const usernameModal = document.getElementById('username-modal');
         const usernameForm = document.getElementById('username-form');
         const usernameInput = document.getElementById('username-input');
         const chatLayout = document.getElementById('chat-layout');
         const displayName = document.getElementById('display-name');
-        
         const chatForm = document.getElementById('chat-form');
         const messageInput = document.getElementById('message-input');
         const container = document.getElementById('messages-container');
         const transmissionSpeed = document.getElementById('transmission-speed');
-
-        const sidebarPanel = document.getElementById('sidebar-panel');
-        const sidebarOverlay = document.getElementById('sidebar-overlay');
-        const mobileToggle = document.getElementById('mobile-sidebar-toggle');
 
         const editModal = document.getElementById('edit-modal');
         const editMessageInput = document.getElementById('edit-message-input');
@@ -402,28 +376,36 @@
 
         async function startApp() {
             try {
+                if (firebaseConfig.apiKey.includes("PASTE_KARO")) {
+                    throw new Error("Dummy Key Detected. Running on fail-safe local engine.");
+                }
+
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
                 await signInAnonymously(auth);
+                
                 loginBtn.textContent = "INITIALIZE NETWORK";
                 loginBtn.disabled = false;
                 loginBtn.classList.remove('opacity-50');
-                loginBtn.classList.add('hover:bg-thm-priHov');
+                
+                if (transmissionSpeed) transmissionSpeed.innerHTML = `<i class="fa-solid fa-wifi mr-1"></i> CLOUD_SYNC_ACTIVE`;
                 setupRealtimeSync();
+
             } catch (error) {
-                console.error("Database connection failed, using local mode:", error);
+                console.warn("Database offline. Shifting to standalone safe local port:", error.message);
+                isLocalMode = true;
+                
                 loginBtn.textContent = "INITIALIZE LOCAL_PORT";
                 loginBtn.disabled = false;
                 loginBtn.classList.remove('opacity-50');
+                
+                if (transmissionSpeed) transmissionSpeed.innerHTML = `<i class="fa-solid fa-circle-nodes mr-1"></i> DISK_SYNC_100%`;
             }
         }
 
         startApp();
-
-        function toggleMobileSidebar() {
-            sidebarPanel.classList.toggle('-translate-x-full');
-            sidebarOverlay.classList.toggle('hidden');
-        }
-        if (mobileToggle) mobileToggle.addEventListener('click', toggleMobileSidebar);
-        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleMobileSidebar);
 
         usernameForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -433,43 +415,80 @@
                 displayName.textContent = myUsername;
                 usernameModal.classList.add('hidden');
                 chatLayout.classList.remove('hidden');
+                
+                if (isLocalMode) {
+                    localMessages = [
+                        {
+                            id: "welcome-1",
+                            username: "SYSTEM_NODE",
+                            text: "WELCOME TO SECURE STANDALONE PORT. LINKING COMPLETED VIA LOCAL EMULATION ROUTER.",
+                            timestamp: Date.now() - 1000,
+                            formattedTime: new Date().toLocaleTimeString('en-IN', { hour12: false }),
+                            edited: false
+                        }
+                    ];
+                    renderLocalMessages();
+                }
             }
         });
 
         chatForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const text = messageInput.value.trim();
-            if (text && auth.currentUser) {
-                messageInput.value = '';
+            if (!text) return;
 
-                if (transmissionSpeed) {
-                    transmissionSpeed.classList.add('text-thm-pri', 'animate-ping');
-                    setTimeout(() => {
-                        transmissionSpeed.classList.remove('text-thm-pri', 'animate-ping');
-                    }, 500);
-                }
+            messageInput.value = '';
 
+            if (transmissionSpeed) {
+                transmissionSpeed.classList.add('animate-pulse', 'text-thm-pri');
+                setTimeout(() => transmissionSpeed.classList.remove('animate-pulse', 'text-thm-pri'), 500);
+            }
+
+            const timestamp = Date.now();
+            const formattedTime = new Date().toLocaleTimeString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+
+            if (isLocalMode) {
+                const localMsg = {
+                    id: "local_" + timestamp,
+                    username: myUsername,
+                    text: text,
+                    timestamp: timestamp,
+                    formattedTime: formattedTime,
+                    edited: false
+                };
+                localMessages.push(localMsg);
+                renderLocalMessages();
+            } else {
                 try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'messages'), {
                         username: myUsername,
                         text: text,
-                        timestamp: Date.now(), 
-                        formattedTime: new Date().toLocaleTimeString('en-IN', {
-                            timeZone: 'Asia/Kolkata',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit',
-                            hour12: false
-                        }),
+                        timestamp: timestamp,
+                        formattedTime: formattedTime,
                         edited: false
                     });
                 } catch (error) {
-                    console.error("Failed to transmit packet:", error);
+                    console.error("Cloud linkage error. Saving to local workspace buffer:", error);
+                    isLocalMode = true;
+                    if (transmissionSpeed) transmissionSpeed.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> SYSTEM_FALLBACK_LOCAL`;
                 }
             }
         });
 
+        function renderLocalMessages() {
+            container.innerHTML = '';
+            localMessages.forEach(msg => appendMessageElement(msg));
+            container.scrollTop = container.scrollHeight;
+        }
+
         function setupRealtimeSync() {
+            if (isLocalMode) return;
             const queryCollection = collection(db, 'artifacts', appId, 'public', 'data', 'messages');
             
             onSnapshot(queryCollection, (snapshot) => {
@@ -479,21 +498,18 @@
                     data.id = doc.id;
                     messagesList.push(data);
                 });
-
                 messagesList.sort((a, b) => a.timestamp - b.timestamp);
-
                 container.innerHTML = '';
                 messagesList.forEach(msg => appendMessageElement(msg));
                 container.scrollTop = container.scrollHeight;
             }, (error) => {
-                console.error("Database sync error:", error);
+                console.error("Realtime sync failed:", error);
             });
         }
 
         function appendMessageElement(data) {
             const isMe = data.username === myUsername;
             const alignment = isMe ? 'justify-end' : 'justify-start';
-            
             const bubbleStyle = isMe 
                 ? "bg-thm-mBg border border-thm-mBdr text-thm-mTxt shadow-glow rounded-main rounded-tr-none" 
                 : "bg-thm-oBg border border-thm-oBdr text-thm-oTxt rounded-main rounded-tl-none";
@@ -503,10 +519,10 @@
 
             const actionButtonsHtml = isMe ? `
                 <div class="msg-action-trigger opacity-0 flex items-center gap-2.5 ml-2 transition-opacity duration-200">
-                    <button onclick="openEditModal('${data.id}', '${escapeHtml(data.text).replace(/'/g, "\\'")}')" class="text-thm-mut hover:text-[#00D9FF] text-xs transition-colors" title="Edit message">
+                    <button onclick="openEditModal('${data.id}', '${escapeHtml(data.text).replace(/'/g, "\\'")}')" class="text-thm-mut hover:text-[#00D9FF] text-xs transition-colors">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
-                    <button onclick="deleteMessage('${data.id}')" class="text-thm-mut hover:text-red-500 text-xs transition-colors" title="Delete message">
+                    <button onclick="deleteMessage('${data.id}')" class="text-thm-mut hover:text-red-500 text-xs transition-colors">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </div>
@@ -524,7 +540,7 @@
                             ${escapeHtml(data.text)}
                         </div>
                         <span class="text-[8px] text-thm-mut font-bold block mt-1.5 mx-1 font-mono uppercase tracking-widest ${isMe ? 'text-right' : ''}">
-                            TIMESTAMP: ${data.formattedTime} ${data.edited ? '<span class="text-thm-pri ml-1 animate-pulse">(EDITED)</span>' : ''}
+                            TIMESTAMP: ${data.formattedTime} ${data.edited ? '<span class="text-thm-pri ml-1">(EDITED)</span>' : ''}
                         </span>
                     </div>
                 </div>
@@ -548,30 +564,41 @@
 
         saveEditBtn.addEventListener('click', async function() {
             const updatedText = editMessageInput.value.trim();
-            if (updatedText && currentlyEditingDocId && auth.currentUser) {
+            if (!updatedText || !currentlyEditingDocId) return;
+
+            if (isLocalMode) {
+                const msg = localMessages.find(m => m.id === currentlyEditingDocId);
+                if (msg) {
+                    msg.text = updatedText;
+                    msg.edited = true;
+                    renderLocalMessages();
+                }
+                closeEditModal();
+            } else {
                 try {
                     const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'messages', currentlyEditingDocId);
-                    await updateDoc(docRef, {
-                        text: updatedText,
-                        edited: true
-                    });
+                    await updateDoc(docRef, { text: updatedText, edited: true });
                     closeEditModal();
                 } catch (error) {
-                    console.error("Failed to edit secure packet:", error);
+                    console.error("Edit request failed:", error);
                 }
             }
         });
 
         window.deleteMessage = async function(id) {
-            if (id && auth.currentUser) {
-                const confirmation = confirm("Are you sure you want to delete this message packet?");
-                if (confirmation) {
-                    try {
-                        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'messages', id);
-                        await deleteDoc(docRef);
-                    } catch (error) {
-                        console.error("Failed to delete packet:", error);
-                    }
+            if (!id) return;
+            const confirmation = confirm("Are you sure you want to delete this message packet?");
+            if (!confirmation) return;
+
+            if (isLocalMode) {
+                localMessages = localMessages.filter(m => m.id !== id);
+                renderLocalMessages();
+            } else {
+                try {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'messages', id);
+                    await deleteDoc(docRef);
+                } catch (error) {
+                    console.error("Delete request failed:", error);
                 }
             }
         };
@@ -594,36 +621,25 @@
         const dropdownMenu = document.getElementById('theme-dropdown-menu');
         const loginDropdownBtn = document.getElementById('login-theme-dropdown-btn');
         const loginDropdownMenu = document.getElementById('login-theme-dropdown-menu');
+        const sidebarPanel = document.getElementById('sidebar-panel');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const mobileToggle = document.getElementById('mobile-sidebar-toggle');
 
-        function toggleThemeDropdown() {
-            dropdownMenu.classList.toggle('hidden');
+        function toggleThemeDropdown() { dropdownMenu.classList.toggle('hidden'); }
+        function toggleLoginThemeDropdown() { loginDropdownMenu.classList.toggle('hidden'); }
+        function toggleMobileSidebar() {
+            sidebarPanel.classList.toggle('-translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
         }
 
-        function toggleLoginThemeDropdown() {
-            loginDropdownMenu.classList.toggle('hidden');
-        }
-
-        if (dropdownBtn) {
-            dropdownBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleThemeDropdown();
-            });
-        }
-
-        if (loginDropdownBtn) {
-            loginDropdownBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleLoginThemeDropdown();
-            });
-        }
+        if (mobileToggle) mobileToggle.addEventListener('click', toggleMobileSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleMobileSidebar);
+        if (dropdownBtn) dropdownBtn.addEventListener('click', function(e) { e.stopPropagation(); toggleThemeDropdown(); });
+        if (loginDropdownBtn) loginDropdownBtn.addEventListener('click', function(e) { e.stopPropagation(); toggleLoginThemeDropdown(); });
 
         document.addEventListener('click', function() {
-            if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
-                dropdownMenu.classList.add('hidden');
-            }
-            if (loginDropdownMenu && !loginDropdownMenu.classList.contains('hidden')) {
-                loginDropdownMenu.classList.add('hidden');
-            }
+            if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) dropdownMenu.classList.add('hidden');
+            if (loginDropdownMenu && !loginDropdownMenu.classList.contains('hidden')) loginDropdownMenu.classList.add('hidden');
         });
     </script>
 </body>
