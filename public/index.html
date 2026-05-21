@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GUPTLOK // SECURE-CHAT</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Web Fonts for All Themes -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
@@ -46,13 +43,13 @@
 
         /* 🤖 THEME 2: CYBER (Deep Cyber-Blue Neon) */
         .theme-cyber {
-            --bg-main: #0B1020;        /* Requested Background */
-            --bg-panel: #111827;       /* Requested Card Color */
+            --bg-main: #0B1020;        
+            --bg-panel: #111827;       
             --bg-input: #0B1020;
-            --text-main: #E2E8F0;      /* Requested Text Color */
+            --text-main: #E2E8F0;      
             --text-mut: rgba(226, 232, 240, 0.5);
-            --pri: #00D9FF;            /* Requested Neon Blue */
-            --pri-hover: #2563EB;      /* Requested Secondary Blue */
+            --pri: #00D9FF;            
+            --pri-hover: #2563EB;      
             --sec: #2563EB;
             --bdr: rgba(0, 217, 255, 0.4);
             --msg-me-bg: #111827;
@@ -106,7 +103,7 @@
         .chat-scroll::-webkit-scrollbar-track { background: transparent; }
         .chat-scroll::-webkit-scrollbar-thumb { background-color: var(--pri); }
 
-        /* Cyberpunk Decorative Elements (Only shown on Cyber/Hacker) */
+        /* Cyberpunk Decorative Elements */
         .theme-deco { display: none; }
         .theme-cyber .theme-deco, .theme-hacker .theme-deco { display: block; }
         
@@ -128,6 +125,11 @@
         }
         .msg-arrival {
             animation: entryGlow 0.4s ease-out;
+        }
+
+        /* Message action container trigger handling visibility elements */
+        .msg-container-box:hover .msg-action-trigger {
+            opacity: 1;
         }
     </style>
 
@@ -171,10 +173,8 @@
 </head>
 <body class="text-thm-txt min-h-screen flex flex-col antialiased relative font-body overflow-hidden">
 
-    <!-- Theme Selectable Login Page -->
     <div id="username-modal" class="fixed inset-0 bg-thm-main/95 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         
-        <!-- Floating Theme Selector on Login Screen Top-Right Corner -->
         <div class="absolute top-4 right-4 md:top-6 md:right-6 z-50">
             <div class="relative inline-block text-left">
                 <button id="login-theme-dropdown-btn" class="bg-thm-panel border border-thm-pri text-thm-pri px-3 py-2 text-xs font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-pri/10 transition-all flex items-center gap-1.5 shadow-glow focus:outline-none active:scale-95">
@@ -183,7 +183,6 @@
                     <i class="fa-solid fa-caret-down text-[10px]"></i>
                 </button>
                 
-                <!-- Login Dropdown Menu -->
                 <div id="login-theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-thm-panel border-2 border-thm-pri rounded-btn shadow-xl py-1.5 z-40 transition-all">
                     <button type="button" onclick="setTheme('theme-normal'); toggleLoginThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#f8fafc] hover:bg-indigo-500/10 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Normal Theme
@@ -200,17 +199,14 @@
 
         <div class="bg-thm-panel border-2 border-thm-pri p-8 w-full max-w-md relative cyber-clip shadow-glow transition-all duration-300 rounded-main">
             
-            <!-- Cyber Decorator Corners -->
             <div class="theme-deco absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-thm-pri"></div>
             <div class="theme-deco absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-thm-pri"></div>
             <div class="theme-deco absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-thm-pri"></div>
             
             <div class="text-center">
-                <!-- Premium Dynamic SV Branding Header -->
                 <div class="flex flex-col items-center mb-6">
                     <div class="border border-thm-pri/40 px-3.5 py-1.5 bg-thm-main/60 rounded-btn text-[10px] font-black tracking-[0.25em] text-thm-pri font-head uppercase animate-pulse shadow-glow">
-                        <i class="fa-solid fa-cube mr-2 text-thm-pri"></i>Made by sahil vaishnav for the community<i class="fa-solid fa-cube ml-2 text-thm-pri"></i>
-                    </div>
+                        <i class="fa-solid fa-cube mr-2 text-thm-pri"></i>Made by sahil vaid
                     </div>
                 </div>
 
@@ -226,18 +222,31 @@
                         placeholder="ENTER NICKNAME_PROMPT..." 
                         class="w-full bg-thm-input border border-thm-bdr rounded-btn px-4 py-3.5 text-sm focus:outline-none focus:border-thm-pri text-thm-txt text-center font-bold tracking-wider placeholder-thm-mut uppercase transition-all"
                     />
-                    <button type="submit" class="w-full bg-thm-pri hover:bg-thm-priHov text-thm-main hover:text-thm-txt font-extrabold py-3.5 tracking-widest text-xs uppercase font-head border-2 border-transparent hover:border-thm-pri shadow-glow rounded-btn transition-all active:scale-95">
-                        INITIALIZE NETWORK
+                    <button id="login-submit-btn" type="submit" disabled class="w-full bg-thm-pri opacity-50 text-thm-main font-extrabold py-3.5 tracking-widest text-xs uppercase font-head border-2 border-transparent shadow-glow rounded-btn transition-all">
+                        CONNECTING DATABASE...
                     </button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Main Workspace Area -->
+    <div id="edit-modal" class="fixed inset-0 bg-black/85 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-thm-panel border-2 border-thm-pri p-6 w-full max-w-md relative cyber-clip shadow-glow rounded-main">
+            <h4 class="text-sm font-black font-head uppercase tracking-wider text-thm-pri mb-4"><i class="fa-solid fa-pen-to-square mr-1.5"></i>Edit Secure Packet</h4>
+            <input 
+                id="edit-message-input" 
+                type="text" 
+                class="w-full bg-thm-input border border-thm-bdr rounded-btn px-4 py-3 text-xs md:text-sm focus:outline-none focus:border-thm-pri text-thm-txt tracking-wider font-body"
+            />
+            <div class="flex justify-end gap-3 mt-5">
+                <button type="button" onclick="closeEditModal()" class="border border-thm-bdr text-thm-mut px-4 py-2 text-[10px] font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-main/40">Cancel</button>
+                <button type="button" id="save-edit-btn" class="bg-thm-pri text-thm-main px-4 py-2 text-[10px] font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-priHov shadow-glow font-extrabold">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
     <div id="chat-layout" class="hidden flex flex-col h-screen overflow-hidden">
         
-        <!-- Header Panel -->
         <header class="bg-thm-panel border-b-2 border-thm-pri px-4 md:px-6 py-3 flex items-center justify-between shadow-lg h-20 shrink-0 relative z-10 transition-colors duration-300">
             <div class="theme-deco absolute top-0 left-0 right-0 h-[3px] bg-thm-pri shadow-glow"></div>
             
@@ -256,9 +265,7 @@
                 </div>
             </div>
 
-            <!-- Top Right Options Controller Dock inside Chat -->
             <div class="flex items-center space-x-2 md:space-x-3">
-                <!-- Dropdown Theme Switcher Tool -->
                 <div class="relative inline-block text-left z-30">
                     <button id="theme-dropdown-btn" class="bg-thm-main border border-thm-pri text-thm-pri px-2.5 md:px-3.5 py-2 text-xs font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-pri/10 transition-all flex items-center gap-1.5 shadow-glow focus:outline-none active:scale-95">
                         <i class="fa-solid fa-palette text-xs"></i>
@@ -266,7 +273,6 @@
                         <i class="fa-solid fa-caret-down text-[10px]"></i>
                     </button>
                     
-                    <!-- Dropdown Options Box -->
                     <div id="theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-thm-panel border-2 border-thm-pri rounded-btn shadow-xl py-1.5 z-40 transition-all">
                         <button onclick="setTheme('theme-normal'); toggleThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#f8fafc] hover:bg-indigo-500/10 flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Normal Theme
@@ -280,17 +286,14 @@
                     </div>
                 </div>
 
-                <!-- Sidebar Drawer Toggle for Mobile Mode -->
                 <button id="mobile-sidebar-toggle" class="md:hidden bg-thm-main border border-thm-pri text-thm-pri p-2.5 rounded-btn transition-all active:scale-95 shadow-glow">
                     <i class="fa-solid fa-users text-sm"></i>
                 </button>
             </div>
         </header>
 
-        <!-- Sidebar Splitted Workspace -->
         <main class="flex-grow flex w-full mx-auto relative h-[calc(100vh-80px)] overflow-hidden">
             
-            <!-- Left Drawer Sidebar Panel -->
             <section id="sidebar-panel" class="w-64 bg-thm-panel border-r-2 border-thm-bdr flex flex-col absolute md:static inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out z-20 md:z-0 shrink-0 h-full">
                 <div class="p-5 border-b border-thm-bdr/30 flex items-center justify-between shrink-0 bg-thm-panel">
                     <h3 class="text-[10px] font-bold uppercase tracking-widest text-thm-pri flex items-center justify-between w-full font-head">
@@ -298,23 +301,26 @@
                         <span id="user-count-badge" class="bg-thm-pri/10 text-thm-pri px-2 py-0.5 rounded-btn border border-thm-pri/20 font-bold">0</span>
                     </h3>
                 </div>
-                <div id="active-users-list" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-2 bg-thm-main/40"></div>
+                <div id="active-users-list" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-2 bg-thm-main/40">
+                    <div class="py-2.5 px-3 bg-thm-panel border border-thm-pri rounded-btn">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-2 h-2 rounded-full bg-thm-pri animate-pulse shadow-glow"></span>
+                            <span class="text-xs font-bold font-head text-thm-pri">GUPTLOK_CLOUD_NODE</span>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <!-- Backside dark drawer overlay for mobile -->
             <div id="sidebar-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-15 hidden md:hidden"></div>
 
-            <!-- Core Chat Grid Arena -->
             <section class="flex-1 bg-black/10 flex flex-col overflow-hidden h-full relative p-2 md:p-4">
                 
                 <div class="flex-grow flex flex-col bg-thm-panel/30 border border-thm-bdr/30 relative overflow-hidden h-full rounded-main">
-                    <!-- Tactical HUD Header Inside Chat -->
                     <div class="bg-thm-panel/50 border-b border-thm-bdr/20 px-4 py-2 flex items-center justify-between text-[10px] text-thm-pri/70 tracking-widest font-bold font-head">
                         <div><i class="fa-solid fa-shield-halved mr-1.5 animate-pulse"></i> SECURE_GRID_STREAM</div>
-                        <div id="transmission-speed"><i class="fa-solid fa-wifi mr-1"></i> DISK_SYNC_100%</div>
+                        <div id="transmission-speed"><i class="fa-solid fa-wifi mr-1"></i> CLOUD_SYNC_ACTIVE</div>
                     </div>
 
-                    <!-- Deco Corners inside Message Area -->
                     <div class="theme-deco absolute top-0 left-0 w-2 h-2 border-t border-l border-thm-pri"></div>
                     <div class="theme-deco absolute top-0 right-0 w-2 h-2 border-t border-r border-thm-pri"></div>
                     <div class="theme-deco absolute bottom-0 left-0 w-2 h-2 border-b border-l border-thm-pri"></div>
@@ -323,7 +329,6 @@
                     <div id="messages-container" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-4"></div>
                 </div>
 
-                <!-- Input Composing Board -->
                 <form id="chat-form" class="mt-2 p-3 bg-thm-panel border border-thm-bdr/50 flex items-center gap-2.5 shrink-0 relative rounded-main">
                     <div class="theme-deco absolute -top-3 left-4 bg-thm-panel border border-thm-bdr/30 text-thm-pri text-[8px] px-2 py-0.5 font-bold tracking-widest font-head">TRANSMIT_SEC_01</div>
                     
@@ -343,42 +348,234 @@
         </main>
     </div>
 
-    <!-- Active System Engine Socket Management Scripts -->
-    <!-- Actual server socket.io loading script placed first -->
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        // Dynamic Fallback Guard for Socket.io (Runs ONLY if real script above failed to load/404)
-        if (typeof io === 'undefined') {
-            console.log("Offline preview mode fallback active...");
-            window.io = function() {
-                const listeners = {};
-                return {
-                    on: function(event, callback) {
-                        listeners[event] = callback;
-                    },
-                    emit: function(event, data) {
-                        console.log("Mock emitted:", event, data);
-                        if (event === 'chat message') {
-                            // Simulate local echo after a small delay
-                            const self = this;
-                            setTimeout(() => {
-                                if (listeners['chat message']) {
-                                    listeners['chat message']({
-                                        username: myUsername || "ANONYMOUS",
-                                        text: data,
-                                        timestamp: new Date().toLocaleTimeString('en-IN', {
-                                            hour: '2-digit',
-                                            minute: '2-digit',
-                                            second: '2-digit',
-                                            hour12: false
-                                        })
-                                    });
-                                }
-                            }, 100);
-                        }
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase Configuration
+        const defaultFirebaseConfig = {
+            apiKey: "AIzaSyAs76-D1D-Z9_vE_FALLBACK_KEY_001",
+            authDomain: "guptlok-lounge-simulation.firebaseapp.com",
+            projectId: "guptlok-lounge-simulation",
+            storageBucket: "guptlok-lounge-simulation.appspot.com",
+            messagingSenderId: "30034004005",
+            appId: "1:30034004005:web:82da1df2ab02c0"
+        };
+
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : defaultFirebaseConfig;
+        
+        // BUG FIX: Replacing any slashes in __app_id with underscores so the Firestore path stays intact.
+        const rawAppId = typeof __app_id !== 'undefined' ? __app_id : 'guptlok-default-id';
+        const appId = rawAppId.replace(/\//g, '_');
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // UI Interfaces Mapping
+        const loginBtn = document.getElementById('login-submit-btn');
+        const usernameModal = document.getElementById('username-modal');
+        const usernameForm = document.getElementById('username-form');
+        const usernameInput = document.getElementById('username-input');
+        const chatLayout = document.getElementById('chat-layout');
+        const displayName = document.getElementById('display-name');
+        
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+        const container = document.getElementById('messages-container');
+        const transmissionSpeed = document.getElementById('transmission-speed');
+
+        const sidebarPanel = document.getElementById('sidebar-panel');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const mobileToggle = document.getElementById('mobile-sidebar-toggle');
+
+        const editModal = document.getElementById('edit-modal');
+        const editMessageInput = document.getElementById('edit-message-input');
+        const saveEditBtn = document.getElementById('save-edit-btn');
+
+        let myUsername = "";
+        let currentlyEditingDocId = "";
+
+        async function startApp() {
+            try {
+                await signInAnonymously(auth);
+                loginBtn.textContent = "INITIALIZE NETWORK";
+                loginBtn.disabled = false;
+                loginBtn.classList.remove('opacity-50');
+                loginBtn.classList.add('hover:bg-thm-priHov');
+                setupRealtimeSync();
+            } catch (error) {
+                console.error("Database connection failed, using local mode:", error);
+                loginBtn.textContent = "INITIALIZE LOCAL_PORT";
+                loginBtn.disabled = false;
+                loginBtn.classList.remove('opacity-50');
+            }
+        }
+
+        startApp();
+
+        function toggleMobileSidebar() {
+            sidebarPanel.classList.toggle('-translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
+        }
+        if (mobileToggle) mobileToggle.addEventListener('click', toggleMobileSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleMobileSidebar);
+
+        usernameForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const inputName = usernameInput.value.trim().toUpperCase();
+            if (inputName) {
+                myUsername = inputName;
+                displayName.textContent = myUsername;
+                usernameModal.classList.add('hidden');
+                chatLayout.classList.remove('hidden');
+            }
+        });
+
+        chatForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const text = messageInput.value.trim();
+            if (text && auth.currentUser) {
+                messageInput.value = '';
+
+                if (transmissionSpeed) {
+                    transmissionSpeed.classList.add('text-thm-pri', 'animate-ping');
+                    setTimeout(() => {
+                        transmissionSpeed.classList.remove('text-thm-pri', 'animate-ping');
+                    }, 500);
+                }
+
+                try {
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'messages'), {
+                        username: myUsername,
+                        text: text,
+                        timestamp: Date.now(), 
+                        formattedTime: new Date().toLocaleTimeString('en-IN', {
+                            timeZone: 'Asia/Kolkata',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                            hour12: false
+                        }),
+                        edited: false
+                    });
+                } catch (error) {
+                    console.error("Failed to transmit packet:", error);
+                }
+            }
+        });
+
+        function setupRealtimeSync() {
+            const queryCollection = collection(db, 'artifacts', appId, 'public', 'data', 'messages');
+            
+            onSnapshot(queryCollection, (snapshot) => {
+                const messagesList = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    data.id = doc.id;
+                    messagesList.push(data);
+                });
+
+                messagesList.sort((a, b) => a.timestamp - b.timestamp);
+
+                container.innerHTML = '';
+                messagesList.forEach(msg => appendMessageElement(msg));
+                container.scrollTop = container.scrollHeight;
+            }, (error) => {
+                console.error("Database sync error:", error);
+            });
+        }
+
+        function appendMessageElement(data) {
+            const isMe = data.username === myUsername;
+            const alignment = isMe ? 'justify-end' : 'justify-start';
+            
+            const bubbleStyle = isMe 
+                ? "bg-thm-mBg border border-thm-mBdr text-thm-mTxt shadow-glow rounded-main rounded-tr-none" 
+                : "bg-thm-oBg border border-thm-oBdr text-thm-oTxt rounded-main rounded-tl-none";
+            
+            const label = isMe ? 'YOU' : data.username;
+            const glowText = isMe ? 'text-thm-pri' : 'text-thm-sec';
+
+            const actionButtonsHtml = isMe ? `
+                <div class="msg-action-trigger opacity-0 flex items-center gap-2.5 ml-2 transition-opacity duration-200">
+                    <button onclick="openEditModal('${data.id}', '${escapeHtml(data.text).replace(/'/g, "\\'")}')" class="text-thm-mut hover:text-[#00D9FF] text-xs transition-colors" title="Edit message">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button onclick="deleteMessage('${data.id}')" class="text-thm-mut hover:text-red-500 text-xs transition-colors" title="Delete message">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            ` : '';
+
+            const msgHtml = `
+                <div class="flex ${alignment} items-end px-1 mb-2 msg-arrival msg-container-box group">
+                    <div class="max-w-[85%] md:max-w-[70%] relative">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[9px] font-bold ${glowText} tracking-widest block mb-1.5 ml-1 font-head uppercase">${label}</span>
+                            ${actionButtonsHtml}
+                        </div>
+                        <div class="${bubbleStyle} px-4 py-3 text-xs md:text-sm break-words transition-colors duration-300 relative cyber-clip-sm">
+                            <div class="theme-deco absolute top-0 right-0 w-2.5 h-2.5 ${isMe ? 'bg-thm-pri shadow-glow' : 'bg-thm-sec'}"></div>
+                            ${escapeHtml(data.text)}
+                        </div>
+                        <span class="text-[8px] text-thm-mut font-bold block mt-1.5 mx-1 font-mono uppercase tracking-widest ${isMe ? 'text-right' : ''}">
+                            TIMESTAMP: ${data.formattedTime} ${data.edited ? '<span class="text-thm-pri ml-1 animate-pulse">(EDITED)</span>' : ''}
+                        </span>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', msgHtml);
+        }
+
+        window.openEditModal = function(id, text) {
+            currentlyEditingDocId = id;
+            editMessageInput.value = text;
+            editModal.classList.remove('hidden');
+            editModal.classList.add('flex');
+            setTimeout(() => editMessageInput.focus(), 50);
+        };
+
+        window.closeEditModal = function() {
+            editModal.classList.add('hidden');
+            editModal.classList.remove('flex');
+            currentlyEditingDocId = "";
+        };
+
+        saveEditBtn.addEventListener('click', async function() {
+            const updatedText = editMessageInput.value.trim();
+            if (updatedText && currentlyEditingDocId && auth.currentUser) {
+                try {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'messages', currentlyEditingDocId);
+                    await updateDoc(docRef, {
+                        text: updatedText,
+                        edited: true
+                    });
+                    closeEditModal();
+                } catch (error) {
+                    console.error("Failed to edit secure packet:", error);
+                }
+            }
+        });
+
+        window.deleteMessage = async function(id) {
+            if (id && auth.currentUser) {
+                const confirmation = confirm("Are you sure you want to delete this message packet?");
+                if (confirmation) {
+                    try {
+                        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'messages', id);
+                        await deleteDoc(docRef);
+                    } catch (error) {
+                        console.error("Failed to delete packet:", error);
                     }
-                };
-            };
+                }
+            }
+        };
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
     </script>
     <script>
@@ -388,11 +585,9 @@
             localStorage.setItem('guptlok-theme', themeName);
         }
 
-        // Initialize user preferred session theme layout on start
         const savedTheme = localStorage.getItem('guptlok-theme') || 'theme-cyber';
         setTheme(savedTheme);
 
-        // --- TOP-RIGHT DROPDOWNS HANDLERS ---
         const dropdownBtn = document.getElementById('theme-dropdown-btn');
         const dropdownMenu = document.getElementById('theme-dropdown-menu');
         const loginDropdownBtn = document.getElementById('login-theme-dropdown-btn');
@@ -420,7 +615,6 @@
             });
         }
 
-        // Close dropdowns when clicking anywhere else
         document.addEventListener('click', function() {
             if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
                 dropdownMenu.classList.add('hidden');
@@ -429,125 +623,6 @@
                 loginDropdownMenu.classList.add('hidden');
             }
         });
-
-        // --- CORE SOCKET COMMUNICATOR ENGINE ---
-        const socket = io();
-        let myUsername = "";
-
-        const usernameModal = document.getElementById('username-modal');
-        const usernameForm = document.getElementById('username-form');
-        const usernameInput = document.getElementById('username-input');
-        const chatLayout = document.getElementById('chat-layout');
-        const displayName = document.getElementById('display-name');
-        
-        const chatForm = document.getElementById('chat-form');
-        const messageInput = document.getElementById('message-input');
-        const container = document.getElementById('messages-container');
-        const usersListContainer = document.getElementById('active-users-list');
-        const userCountBadge = document.getElementById('user-count-badge');
-
-        const sidebarPanel = document.getElementById('sidebar-panel');
-        const sidebarOverlay = document.getElementById('sidebar-overlay');
-        const mobileToggle = document.getElementById('mobile-sidebar-toggle');
-        const transmissionSpeed = document.getElementById('transmission-speed');
-
-        function toggleMobileSidebar() {
-            sidebarPanel.classList.toggle('-translate-x-full');
-            sidebarOverlay.classList.toggle('hidden');
-        }
-        mobileToggle.addEventListener('click', toggleMobileSidebar);
-        sidebarOverlay.addEventListener('click', toggleMobileSidebar);
-
-        usernameForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const inputName = usernameInput.value.trim().toUpperCase();
-            if (inputName) {
-                myUsername = inputName;
-                displayName.textContent = myUsername;
-                usernameModal.classList.add('hidden');
-                chatLayout.classList.remove('hidden');
-                socket.emit('store username', myUsername);
-            }
-        });
-
-        chatForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (messageInput.value.trim()) {
-                socket.emit('chat message', messageInput.value);
-
-                // Active transmission status link animation blink trigger feedback
-                if (transmissionSpeed) {
-                    transmissionSpeed.classList.add('text-thm-pri', 'animate-ping');
-                    setTimeout(() => {
-                        transmissionSpeed.classList.remove('text-thm-pri', 'animate-ping');
-                    }, 500);
-                }
-
-                messageInput.value = '';
-            }
-        });
-
-        function appendMessageElement(data) {
-            const isMe = data.username === myUsername;
-            const alignment = isMe ? 'justify-end' : 'justify-start';
-            
-            // Core dynamic class variable resolver for multi-theme integration 
-            const bubbleStyle = isMe 
-                ? "bg-thm-mBg border-2 border-thm-mBdr text-thm-mTxt shadow-glow rounded-main rounded-tr-none" 
-                : "bg-thm-oBg border-2 border-thm-oBdr text-thm-oTxt rounded-main rounded-tl-none";
-            
-            const label = isMe ? 'YOU' : data.username;
-            const glowText = isMe ? 'text-thm-pri' : 'text-thm-sec';
-
-            const msgHtml = `
-                <div class="flex ${alignment} items-end px-1 mb-2 msg-arrival">
-                    <div class="max-w-[85%] md:max-w-[70%] relative">
-                        <span class="text-[9px] font-bold ${glowText} tracking-widest block mb-1.5 ml-1 font-head uppercase">${label}</span>
-                        <div class="${bubbleStyle} px-4 py-3 text-xs md:text-sm break-words transition-colors duration-300 relative cyber-clip-sm">
-                            <div class="theme-deco absolute top-0 right-0 w-2.5 h-2.5 ${isMe ? 'bg-thm-pri shadow-glow' : 'bg-thm-sec'}"></div>
-                            ${escapeHtml(data.text)}
-                        </div>
-                        <span class="text-[8px] text-thm-mut font-bold block mt-1.5 mx-1 font-mono uppercase tracking-widest ${isMe ? 'text-right' : ''}">TIMESTAMP: ${data.timestamp}</span>
-                    </div>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', msgHtml);
-        }
-
-        socket.on('chat message', function(data) {
-            appendMessageElement(data);
-            container.scrollTop = container.scrollHeight;
-        });
-
-        socket.on('load history', function(historyArray) {
-            container.innerHTML = '';
-            historyArray.forEach(msg => appendMessageElement(msg));
-            container.scrollTop = container.scrollHeight;
-        });
-
-        socket.on('update user list', function(activeUsernamesArray) {
-            usersListContainer.innerHTML = ''; 
-            userCountBadge.textContent = `${activeUsernamesArray.length}`;
-
-            activeUsernamesArray.forEach(username => {
-                const isMe = username === myUsername;
-                const activeHtml = `
-                    <div class="flex items-center justify-between py-2.5 px-3 bg-thm-panel border ${isMe ? 'border-thm-pri shadow-glow' : 'border-thm-bdr/50'} rounded-btn transition-colors duration-300">
-                        <div class="flex items-center space-x-2.5 min-w-0">
-                            <span class="w-2 h-2 rounded-full ${isMe ? 'bg-thm-pri shadow-glow' : 'bg-[#2563EB]'}"></span>
-                            <h4 class="text-xs font-bold truncate tracking-wider font-head ${isMe ? 'text-thm-pri' : 'text-thm-txt'}">
-                                ${username} ${isMe ? '<span class="text-[8px] text-[#2563EB] font-mono ml-1">_LOCAL</span>' : ''}
-                            </h4>
-                        </div>
-                    </div>
-                `;
-                usersListContainer.insertAdjacentHTML('beforeend', activeHtml);
-            });
-        });
-
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
     </script>
 </body>
 </html>
