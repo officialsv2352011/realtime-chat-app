@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GUPTLOK // SECURE-CHAT</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Web Fonts for All Themes -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
@@ -103,7 +106,7 @@
         .chat-scroll::-webkit-scrollbar-track { background: transparent; }
         .chat-scroll::-webkit-scrollbar-thumb { background-color: var(--pri); }
 
-        /* Cyberpunk Decorative Elements (Only shown on Cyber/Hacker) */
+        /* Cyberpunk Decorative Elements */
         .theme-deco { display: none; }
         .theme-cyber .theme-deco, .theme-hacker .theme-deco { display: block; }
         
@@ -127,7 +130,7 @@
             animation: entryGlow 0.4s ease-out;
         }
 
-        /* Hover karne par edit/delete panel triggers opacity transition */
+        /* Show action trigger tools dynamically on hover */
         .msg-container-box:hover .msg-action-trigger {
             opacity: 1;
         }
@@ -173,8 +176,10 @@
 </head>
 <body class="text-thm-txt min-h-screen flex flex-col antialiased relative font-body overflow-hidden">
 
+    <!-- Theme Selectable Login Page -->
     <div id="username-modal" class="fixed inset-0 bg-thm-main/95 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         
+        <!-- Floating Theme Selector on Login Screen Top-Right Corner -->
         <div class="absolute top-4 right-4 md:top-6 md:right-6 z-50">
             <div class="relative inline-block text-left">
                 <button id="login-theme-dropdown-btn" class="bg-thm-panel border border-thm-pri text-thm-pri px-3 py-2 text-xs font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-pri/10 transition-all flex items-center gap-1.5 shadow-glow focus:outline-none active:scale-95">
@@ -183,6 +188,7 @@
                     <i class="fa-solid fa-caret-down text-[10px]"></i>
                 </button>
                 
+                <!-- Login Dropdown Menu -->
                 <div id="login-theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-thm-panel border-2 border-thm-pri rounded-btn shadow-xl py-1.5 z-40 transition-all">
                     <button type="button" onclick="setTheme('theme-normal'); toggleLoginThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#f8fafc] hover:bg-indigo-500/10 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Normal Theme
@@ -199,11 +205,13 @@
 
         <div class="bg-thm-panel border-2 border-thm-pri p-8 w-full max-w-md relative cyber-clip shadow-glow transition-all duration-300 rounded-main">
             
+            <!-- Cyber Decorator Corners -->
             <div class="theme-deco absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-thm-pri"></div>
             <div class="theme-deco absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-thm-pri"></div>
             <div class="theme-deco absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-thm-pri"></div>
             
             <div class="text-center">
+                <!-- Premium Dynamic SV Branding Header (ROllBACK ON DEMAND) -->
                 <div class="flex flex-col items-center mb-6">
                     <div class="border border-thm-pri/40 px-3.5 py-1.5 bg-thm-main/60 rounded-btn text-[10px] font-black tracking-[0.25em] text-thm-pri font-head uppercase animate-pulse shadow-glow">
                         <i class="fa-solid fa-cube mr-2 text-thm-pri"></i>Made by sahil vaishnav for the community<i class="fa-solid fa-cube ml-2 text-thm-pri"></i>
@@ -230,6 +238,7 @@
         </div>
     </div>
 
+    <!-- Edit Modal Popup Controller -->
     <div id="edit-modal" class="fixed inset-0 bg-black/85 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-thm-panel border-2 border-thm-pri p-6 w-full max-w-md relative cyber-clip shadow-glow rounded-main">
             <h4 class="text-sm font-black font-head uppercase tracking-wider text-thm-pri mb-4"><i class="fa-solid fa-pen-to-square mr-1.5"></i>Edit Message Packet</h4>
@@ -245,8 +254,10 @@
         </div>
     </div>
 
+    <!-- Main Workspace Area -->
     <div id="chat-layout" class="hidden flex flex-col h-screen overflow-hidden">
         
+        <!-- Header Panel -->
         <header class="bg-thm-panel border-b-2 border-thm-pri px-4 md:px-6 py-3 flex items-center justify-between shadow-lg h-20 shrink-0 relative z-10 transition-colors duration-300">
             <div class="theme-deco absolute top-0 left-0 right-0 h-[3px] bg-thm-pri shadow-glow"></div>
             
@@ -265,7 +276,9 @@
                 </div>
             </div>
 
+            <!-- Top Right Options Controller Dock inside Chat -->
             <div class="flex items-center space-x-2 md:space-x-3">
+                <!-- Dropdown Theme Switcher Tool -->
                 <div class="relative inline-block text-left z-30">
                     <button id="theme-dropdown-btn" class="bg-thm-main border border-thm-pri text-thm-pri px-2.5 md:px-3.5 py-2 text-xs font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-pri/10 transition-all flex items-center gap-1.5 shadow-glow focus:outline-none active:scale-95">
                         <i class="fa-solid fa-palette text-xs"></i>
@@ -273,6 +286,7 @@
                         <i class="fa-solid fa-caret-down text-[10px]"></i>
                     </button>
                     
+                    <!-- Dropdown Options Box -->
                     <div id="theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-thm-panel border-2 border-thm-pri rounded-btn shadow-xl py-1.5 z-40 transition-all">
                         <button onclick="setTheme('theme-normal'); toggleThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#f8fafc] hover:bg-indigo-500/10 flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Normal Theme
@@ -286,14 +300,17 @@
                     </div>
                 </div>
 
+                <!-- Sidebar Drawer Toggle for Mobile Mode -->
                 <button id="mobile-sidebar-toggle" class="md:hidden bg-thm-main border border-thm-pri text-thm-pri p-2.5 rounded-btn transition-all active:scale-95 shadow-glow">
                     <i class="fa-solid fa-users text-sm"></i>
                 </button>
             </div>
         </header>
 
+        <!-- Sidebar Splitted Workspace -->
         <main class="flex-grow flex w-full mx-auto relative h-[calc(100vh-80px)] overflow-hidden">
             
+            <!-- Left Drawer Sidebar Panel -->
             <section id="sidebar-panel" class="w-64 bg-thm-panel border-r-2 border-thm-bdr flex flex-col absolute md:static inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out z-20 md:z-0 shrink-0 h-full">
                 <div class="p-5 border-b border-thm-bdr/30 flex items-center justify-between shrink-0 bg-thm-panel">
                     <h3 class="text-[10px] font-bold uppercase tracking-widest text-thm-pri flex items-center justify-between w-full font-head">
@@ -304,16 +321,20 @@
                 <div id="active-users-list" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-2 bg-thm-main/40"></div>
             </section>
 
+            <!-- Backside dark drawer overlay for mobile -->
             <div id="sidebar-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-15 hidden md:hidden"></div>
 
+            <!-- Core Chat Grid Arena -->
             <section class="flex-1 bg-black/10 flex flex-col overflow-hidden h-full relative p-2 md:p-4">
                 
                 <div class="flex-grow flex flex-col bg-thm-panel/30 border border-thm-bdr/30 relative overflow-hidden h-full rounded-main">
+                    <!-- Tactical HUD Header Inside Chat -->
                     <div class="bg-thm-panel/50 border-b border-thm-bdr/20 px-4 py-2 flex items-center justify-between text-[10px] text-thm-pri/70 tracking-widest font-bold font-head">
                         <div><i class="fa-solid fa-shield-halved mr-1.5 animate-pulse"></i> SECURE_GRID_STREAM</div>
-                        <div id="transmission-speed"><i class="fa-solid fa-wifi mr-1"></i> SOCKET_SYNC_100%</div>
+                        <div id="transmission-speed"><i class="fa-solid fa-wifi mr-1"></i> DISK_SYNC_100%</div>
                     </div>
 
+                    <!-- Deco Corners inside Message Area -->
                     <div class="theme-deco absolute top-0 left-0 w-2 h-2 border-t border-l border-thm-pri"></div>
                     <div class="theme-deco absolute top-0 right-0 w-2 h-2 border-t border-r border-thm-pri"></div>
                     <div class="theme-deco absolute bottom-0 left-0 w-2 h-2 border-b border-l border-thm-pri"></div>
@@ -322,6 +343,7 @@
                     <div id="messages-container" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-4"></div>
                 </div>
 
+                <!-- Input Composing Board -->
                 <form id="chat-form" class="mt-2 p-3 bg-thm-panel border border-thm-bdr/50 flex items-center gap-2.5 shrink-0 relative rounded-main">
                     <div class="theme-deco absolute -top-3 left-4 bg-thm-panel border border-thm-bdr/30 text-thm-pri text-[8px] px-2 py-0.5 font-bold tracking-widest font-head">TRANSMIT_SEC_01</div>
                     
@@ -341,6 +363,7 @@
         </main>
     </div>
 
+    <!-- Active System Engine Socket Management Scripts -->
     <script src="/socket.io/socket.io.js"></script>
     <script>
         // Dynamic Fallback Guard for Socket.io (Runs ONLY if real script above failed to load/404)
@@ -358,10 +381,12 @@
                             const self = this;
                             setTimeout(() => {
                                 if (listeners['chat message']) {
+                                    let textVal = (typeof data === 'object') ? data.text : data;
+                                    let mockId = (typeof data === 'object' && data.id) ? data.id : 'msg_mock_' + Date.now();
                                     listeners['chat message']({
-                                        id: 'msg_mock_' + Date.now(),
+                                        id: mockId,
                                         username: myUsername || "ANONYMOUS",
-                                        text: data,
+                                        text: textVal,
                                         timestamp: new Date().toLocaleTimeString('en-IN', {
                                             hour: '2-digit',
                                             minute: '2-digit',
@@ -416,6 +441,7 @@
             });
         }
 
+        // Close dropdowns when clicking anywhere else
         document.addEventListener('click', function() {
             if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
                 dropdownMenu.classList.add('hidden');
@@ -428,7 +454,7 @@
         // --- CORE SOCKET COMMUNICATOR ENGINE ---
         const socket = io();
         let myUsername = "";
-        let currentlyEditingMsgId = ""; 
+        let currentlyEditingMsgId = ""; // Track context item
 
         const usernameModal = document.getElementById('username-modal');
         const usernameForm = document.getElementById('username-form');
@@ -447,7 +473,7 @@
         const mobileToggle = document.getElementById('mobile-sidebar-toggle');
         const transmissionSpeed = document.getElementById('transmission-speed');
 
-        // Edit Modal Selectors
+        // Edit Modal DOM Selectors
         const editModal = document.getElementById('edit-modal');
         const editMessageInput = document.getElementById('edit-message-input');
         const saveEditBtn = document.getElementById('save-edit-btn');
@@ -474,8 +500,15 @@
         chatForm.addEventListener('submit', function(e) {
             e.preventDefault();
             if (messageInput.value.trim()) {
-                socket.emit('chat message', messageInput.value);
+                // Assign temporary transmission dynamic UUID parameters
+                const tempId = 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+                
+                socket.emit('chat message', {
+                    id: tempId,
+                    text: messageInput.value
+                });
 
+                // Active transmission status link animation blink trigger feedback
                 if (transmissionSpeed) {
                     transmissionSpeed.classList.add('text-thm-pri', 'animate-ping');
                     setTimeout(() => {
@@ -491,6 +524,7 @@
             const isMe = data.username === myUsername;
             const alignment = isMe ? 'justify-end' : 'justify-start';
             
+            // Core dynamic class variable resolver for multi-theme integration 
             const bubbleStyle = isMe 
                 ? "bg-thm-mBg border-2 border-thm-mBdr text-thm-mTxt shadow-glow rounded-main rounded-tr-none" 
                 : "bg-thm-oBg border-2 border-thm-oBdr text-thm-oTxt rounded-main rounded-tl-none";
@@ -498,16 +532,17 @@
             const label = isMe ? 'YOU' : data.username;
             const glowText = isMe ? 'text-thm-pri' : 'text-thm-sec';
             
-            const finalId = data.id || 'msg_' + Math.random().toString(36).substr(2, 5);
+            // Assign message id safely or create a fallback
+            const finalId = data.id || 'msg_generated_' + Math.random().toString(36).substr(2, 5);
             const safeTextContent = escapeHtml(data.text).replace(/'/g, "\\'");
 
-            // Agar message mera (YOU) hai, toh edit/delete ke buttons show honge
+            // Build individual actionable console buttons for message authors
             const controlButtonsPanel = isMe ? `
                 <div class="msg-action-trigger opacity-0 flex items-center gap-2 ml-2 transition-opacity duration-150">
-                    <button onclick="openEditModal('${finalId}', '${safeTextContent}')" class="text-thm-mut hover:text-[#00D9FF] text-xs transition-colors" title="Edit message">
+                    <button onclick="openEditModal('${finalId}', '${safeTextContent}')" class="text-thm-mut hover:text-[#00D9FF] text-xs transition-colors" title="Edit packet data">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
-                    <button onclick="triggerDeleteMessage('${finalId}')" class="text-thm-mut hover:text-red-500 text-xs transition-colors" title="Delete message">
+                    <button onclick="triggerDeleteMessage('${finalId}')" class="text-thm-mut hover:text-red-500 text-xs transition-colors" title="Purge database entry">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </div>
@@ -533,7 +568,7 @@
             container.insertAdjacentHTML('beforeend', msgHtml);
         }
 
-        // --- WINDOW INLINE ACTIONS FOR EDIT/DELETE ---
+        // --- WINDOW INLINE MODAL ACTION MODULES ---
         window.openEditModal = function(id, currentText) {
             currentlyEditingMsgId = id;
             editMessageInput.value = currentText;
@@ -562,7 +597,7 @@
         }
 
         window.triggerDeleteMessage = function(id) {
-            if (confirm("Are you sure you want to delete this message?")) {
+            if (confirm("Are you sure you want to purge this secure message packet from server grid?")) {
                 socket.emit('delete message', id);
             }
         };

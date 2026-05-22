@@ -43,7 +43,7 @@ function saveToHistory(messageObject) {
     }
 }
 
-// History file ko rewrite karne ka helper function (For Edit & Delete operations)
+// History file ko overwrite karne ke liye tool (jab edit ya delete ho)
 function rewriteHistoryFile(updatedHistory) {
     try {
         fs.writeFileSync(historyFilePath, JSON.stringify(updatedHistory, null, 2), 'utf8');
@@ -61,15 +61,18 @@ io.on('connection', (socket) => {
         socket.emit('load history', pastMessages);
     });
 
-    socket.on('chat message', (msg) => {
+    socket.on('chat message', (msgData) => {
         const senderName = users[socket.id] || "Anonymous";
+        
+        // Dynamic packet validation checker (supports text string or structured object)
+        let msgText = (typeof msgData === 'object') ? msgData.text : msgData;
+        let msgId = (typeof msgData === 'object' && msgData.id) ? msgData.id : 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
 
-        // Message object mein Unique ID aur edited status add kiya
         const messageData = {
-            id: 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-            text: msg,
+            id: msgId,
             username: senderName,
-            timestamp: getIndiaTime(),
+            text: msgText,
+            timestamp: getIndiaTime(), // Indian Time save ho raha hai
             edited: false
         };
 
@@ -77,7 +80,7 @@ io.on('connection', (socket) => {
         io.emit('chat message', messageData);
     });
 
-    // --- MESSAGE EDIT HANDLING ---
+    // --- NEW RECEPTOR: EDIT TRANSMISSION PACKET ---
     socket.on('edit message', (data) => {
         let currentHistory = getChatHistory();
         const targetIndex = currentHistory.findIndex(m => m.id === data.id);
@@ -88,12 +91,12 @@ io.on('connection', (socket) => {
             
             rewriteHistoryFile(currentHistory);
             
-            // Sabhi connected clients ko update bhejo
+            // Sabhi active devices ko realtime modification broadcast karo
             io.emit('message edited', { id: data.id, text: data.text });
         }
     });
 
-    // --- MESSAGE DELETE HANDLING ---
+    // --- NEW RECEPTOR: PURGE/DELETE TRANSMISSION PACKET ---
     socket.on('delete message', (msgId) => {
         let currentHistory = getChatHistory();
         const initialLength = currentHistory.length;
@@ -102,8 +105,7 @@ io.on('connection', (socket) => {
         
         if (currentHistory.length !== initialLength) {
             rewriteHistoryFile(currentHistory);
-            
-            // Sabhi clients ke UI se element remove karne ke liye emit karo
+            // Sabhi users ke grid se real-time message remove karo
             io.emit('message deleted', msgId);
         }
     });
