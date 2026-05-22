@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
-    <title>GUPTLOK // SECURE-CHAT</title>
+    <title>GUPTLOK // PREMIUM-SECURE-CHAT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -16,17 +16,16 @@
             --bg-pattern: none;
         }
 
-        /* 🔵 THEME 1: NORMAL (Modern Dark Mode) */
         .theme-normal {
-            --bg-main: #0f172a;        /* slate-900 */
-            --bg-panel: #1e293b;       /* slate-800 */
+            --bg-main: #0f172a;
+            --bg-panel: #1e293b;
             --bg-input: #0f172a;
             --text-main: #f8fafc;
             --text-mut: #94a3b8;
-            --pri: #6366f1;            /* indigo-500 */
+            --pri: #6366f1;
             --pri-hover: #4f46e5;
-            --sec: #8b5cf6;            /* violet-500 */
-            --bdr: #334155;            /* slate-700 */
+            --sec: #8b5cf6;
+            --bdr: #334155;
             --msg-me-bg: #4f46e5;
             --msg-me-bdr: #4f46e5;
             --msg-me-txt: #ffffff;
@@ -41,15 +40,14 @@
             --bg-pattern: none;
         }
 
-        /* 🤖 THEME 2: CYBER (Deep Cyber-Blue Neon) */
         .theme-cyber {
-            --bg-main: #0B1020;        /* Requested Background */
-            --bg-panel: #111827;       /* Requested Card Color */
+            --bg-main: #0B1020;
+            --bg-panel: #111827;
             --bg-input: #0B1020;
-            --text-main: #E2E8F0;      /* Requested Text Color */
+            --text-main: #E2E8F0;
             --text-mut: rgba(226, 232, 240, 0.5);
-            --pri: #00D9FF;            /* Requested Neon Blue */
-            --pri-hover: #2563EB;      /* Requested Secondary Blue */
+            --pri: #00D9FF;
+            --pri-hover: #2563EB;
             --sec: #2563EB;
             --bdr: rgba(0, 217, 255, 0.4);
             --msg-me-bg: #111827;
@@ -66,7 +64,6 @@
             --bg-pattern: linear-gradient(rgba(0, 217, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 217, 255, 0.04) 1px, transparent 1px);
         }
 
-        /* 👨‍💻 THEME 3: HACKER (Matrix Green Terminal) */
         .theme-hacker {
             --bg-main: #000000;
             --bg-panel: #050505;
@@ -91,14 +88,9 @@
             --bg-pattern: none;
         }
 
-        /* Dynamic height settings for safe layout sizing without keyboard clash */
         #chat-layout {
             height: 100vh;
-            height: 100dvh; /* Dynamic viewport triggers auto layout shift when keyboard rises */
-        }
-
-        #messages-container {
-            height: calc(100% - 80px);
+            height: 100dvh;
         }
 
         body {
@@ -112,7 +104,6 @@
         .chat-scroll::-webkit-scrollbar-track { background: transparent; }
         .chat-scroll::-webkit-scrollbar-thumb { background-color: var(--pri); }
 
-        /* Cyberpunk Decorative Elements (Only shown on Cyber/Hacker) */
         .theme-deco { display: none; }
         .theme-cyber .theme-deco, .theme-hacker .theme-deco { display: block; }
         
@@ -126,31 +117,26 @@
             clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
         }
 
-        /* Message Entry Glow Animation */
         @keyframes entryGlow {
-            0% { opacity: 0.3; border-color: var(--sec); }
-            50% { opacity: 1; border-color: var(--pri); }
-            100% { opacity: 1; }
+            0% { opacity: 0; transform: translateY(10px); filter: brightness(1.5); }
+            100% { opacity: 1; transform: translateY(0); filter: brightness(1); }
         }
         .msg-arrival {
-            animation: entryGlow 0.4s ease-out;
+            animation: entryGlow 0.3s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
         }
 
-        /* Desktop hover mechanics */
-        .msg-container-box:hover .msg-action-trigger {
-            opacity: 1;
-        }
+        .msg-container-box:hover .msg-action-trigger { opacity: 1; }
 
-        /* Mobile phones responsive override for Edit & Delete buttons persistence visibility */
         @media (max-width: 768px) {
-            .msg-action-trigger {
-                opacity: 1 !important;
-            }
+            .msg-action-trigger { opacity: 1 !important; }
         }
+
+        /* Continuous text blink for typing notification */
+        .blink-fast { animation: blink 0.8s infinite steps(2, start); }
+        @keyframes blink { to { visibility: hidden; } }
     </style>
 
     <script>
-        // Dynamic CSS variables mapping inside Tailwind CSS configuration
         tailwind.config = {
             theme: {
                 extend: {
@@ -173,14 +159,8 @@
                             oTxt: 'var(--msg-oth-txt)',
                         }
                     },
-                    fontFamily: {
-                        head: 'var(--font-head)',
-                        body: 'var(--font-body)',
-                    },
-                    borderRadius: {
-                        main: 'var(--radius-main)',
-                        btn: 'var(--radius-btn)',
-                    },
+                    fontFamily: { head: 'var(--font-head)', body: 'var(--font-body)' },
+                    borderRadius: { main: 'var(--radius-main)', btn: 'var(--radius-btn)' },
                     boxShadow: { glow: 'var(--glow-pri)' }
                 }
             }
@@ -190,16 +170,14 @@
 <body class="text-thm-txt min-h-screen flex flex-col antialiased relative font-body overflow-hidden">
 
     <div id="username-modal" class="fixed inset-0 bg-thm-main/95 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-        
-        <div class="absolute top-4 right-4 md:top-6 md:right-6 z-50">
+        <div class="absolute top-4 right-4 z-50">
             <div class="relative inline-block text-left">
-                <button id="login-theme-dropdown-btn" class="bg-thm-panel border border-thm-pri text-thm-pri px-3 py-2 text-xs font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-pri/10 transition-all flex items-center gap-1.5 shadow-glow focus:outline-none active:scale-95">
+                <button id="login-theme-dropdown-btn" class="bg-thm-panel border border-thm-pri text-thm-pri px-3 py-2 text-xs font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-pri/10 flex items-center gap-1.5 shadow-glow">
                     <i class="fa-solid fa-palette text-xs"></i>
                     <span>Theme</span>
                     <i class="fa-solid fa-caret-down text-[10px]"></i>
                 </button>
-                
-                <div id="login-theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-thm-panel border-2 border-thm-pri rounded-btn shadow-xl py-1.5 z-40 transition-all">
+                <div id="login-theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-thm-panel border-2 border-thm-pri rounded-btn shadow-xl py-1.5 z-40">
                     <button type="button" onclick="setTheme('theme-normal'); toggleLoginThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#f8fafc] hover:bg-indigo-500/10 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Normal Theme
                     </button>
@@ -213,34 +191,20 @@
             </div>
         </div>
 
-        <div class="bg-thm-panel border-2 border-thm-pri p-8 w-full max-w-md relative cyber-clip shadow-glow transition-all duration-300 rounded-main">
-            
+        <div class="bg-thm-panel border-2 border-thm-pri p-8 w-full max-w-md relative cyber-clip shadow-glow rounded-main">
             <div class="theme-deco absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-thm-pri"></div>
             <div class="theme-deco absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-thm-pri"></div>
-            <div class="theme-deco absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-thm-pri"></div>
-            
             <div class="text-center">
                 <div class="flex flex-col items-center mb-6">
-                    <div class="border border-thm-pri/40 px-3.5 py-1.5 bg-thm-main/60 rounded-btn text-[10px] font-black tracking-[0.25em] text-thm-pri font-head uppercase animate-pulse shadow-glow">
-                        <i class="fa-solid fa-cube mr-2 text-thm-pri"></i>Made by sahil vaishnav for the community<i class="fa-solid fa-cube ml-2 text-thm-pri"></i>
+                    <div class="border border-thm-pri/40 px-3.5 py-1.5 bg-thm-main/60 rounded-btn text-[10px] font-black tracking-[0.25em] text-thm-pri font-head uppercase shadow-glow">
+                        <i class="fa-solid fa-cube mr-2"></i>Made by sahil vaishnav for the community<i class="fa-solid fa-cube ml-2"></i>
                     </div>
                 </div>
-
                 <h3 class="text-2xl font-black text-thm-pri tracking-wider mb-2 font-head uppercase">System Access</h3>
                 <p class="text-xs text-thm-mut mb-8 uppercase tracking-wide">Enter network alias to establish linkage</p>
-
                 <form id="username-form" class="space-y-5">
-                    <input 
-                        id="username-input"
-                        type="text" 
-                        required 
-                        maxlength="15"
-                        placeholder="ENTER NICKNAME_PROMPT..." 
-                        class="w-full bg-thm-input border border-thm-bdr rounded-btn px-4 py-3.5 text-sm focus:outline-none focus:border-thm-pri text-thm-txt text-center font-bold tracking-wider placeholder-thm-mut uppercase transition-all"
-                    />
-                    <button type="submit" class="w-full bg-thm-pri hover:bg-thm-priHov text-thm-main hover:text-thm-txt font-extrabold py-3.5 tracking-widest text-xs uppercase font-head border-2 border-transparent hover:border-thm-pri shadow-glow rounded-btn transition-all active:scale-95">
-                        INITIALIZE NETWORK
-                    </button>
+                    <input id="username-input" type="url" required maxlength="15" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="ENTER NICKNAME_PROMPT..." class="w-full bg-thm-input border border-thm-bdr rounded-btn px-4 py-3.5 text-sm focus:outline-none focus:border-thm-pri text-thm-txt text-center font-bold tracking-wider placeholder-thm-mut uppercase" />
+                    <button type="submit" class="w-full bg-thm-pri hover:bg-thm-priHov text-thm-main hover:text-thm-txt font-extrabold py-3.5 tracking-widest text-xs uppercase font-head shadow-glow rounded-btn transition-all active:scale-95">INITIALIZE NETWORK</button>
                 </form>
             </div>
         </div>
@@ -249,72 +213,50 @@
     <div id="edit-modal" class="fixed inset-0 bg-black/85 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-thm-panel border-2 border-thm-pri p-6 w-full max-w-md relative cyber-clip shadow-glow rounded-main">
             <h4 class="text-sm font-black font-head uppercase tracking-wider text-thm-pri mb-4"><i class="fa-solid fa-pen-to-square mr-1.5"></i>Edit Message Packet</h4>
-            <input 
-                id="edit-message-input" 
-                type="text" 
-                class="w-full bg-thm-input border border-thm-bdr rounded-btn px-4 py-3 text-xs md:text-sm focus:outline-none focus:border-thm-pri text-thm-txt tracking-wider font-body"
-            />
+            <input id="edit-message-input" type="text" class="w-full bg-thm-input border border-thm-bdr rounded-btn px-4 py-3 text-xs focus:outline-none focus:border-thm-pri text-thm-txt font-body" />
             <div class="flex justify-end gap-3 mt-5">
-                <button type="button" onclick="closeEditModal()" class="border border-thm-bdr text-thm-mut px-4 py-2 text-[10px] font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-main/40">Cancel</button>
-                <button type="button" id="save-edit-btn" class="bg-thm-pri text-thm-main px-4 py-2 text-[10px] font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-priHov shadow-glow font-extrabold">Save Changes</button>
+                <button type="button" onclick="closeEditModal()" class="border border-thm-bdr text-thm-mut px-4 py-2 text-[10px] font-head uppercase tracking-wider rounded-btn hover:bg-thm-main/40">Cancel</button>
+                <button type="button" id="save-edit-btn" class="bg-thm-pri text-thm-main px-4 py-2 text-[10px] font-head uppercase tracking-wider rounded-btn hover:bg-thm-priHov shadow-glow font-extrabold">Save Changes</button>
             </div>
         </div>
     </div>
 
     <div id="chat-layout" class="hidden flex flex-col overflow-hidden">
         
-        <header class="bg-thm-panel border-b-2 border-thm-pri px-4 md:px-6 py-3 flex items-center justify-between shadow-lg h-20 shrink-0 relative z-10 transition-colors duration-300">
+        <header class="bg-thm-panel border-b-2 border-thm-pri px-4 md:px-6 py-3 flex items-center justify-between shadow-lg h-20 shrink-0 relative z-10">
             <div class="theme-deco absolute top-0 left-0 right-0 h-[3px] bg-thm-pri shadow-glow"></div>
-            
             <div class="flex items-center space-x-2 md:space-x-4">
                 <div class="border border-thm-bdr p-2 flex items-center justify-center rounded-main bg-thm-main/40 shrink-0">
                     <i class="fa-solid fa-terminal text-thm-pri text-sm md:text-lg animate-pulse"></i>
                 </div>
                 <div>
-                    <h1 class="font-black text-xs md:text-lg tracking-wider text-thm-pri font-head uppercase flex items-center gap-1.5">
-                        GUPTLOK <span class="text-[8px] md:text-[9px] font-bold text-thm-sec bg-thm-sec/10 px-1 py-0.5 border border-thm-sec/20 tracking-normal rounded-sm">V3_DUNK</span>
-                    </h1>
+                    <h1 class="font-black text-xs md:text-lg tracking-wider text-thm-pri font-head uppercase flex items-center gap-1.5">GUPTLOK <span class="text-[8px] md:text-[9px] font-bold text-thm-sec bg-thm-sec/10 px-1 py-0.5 border border-thm-sec/20 rounded-sm">V3_PREMIUM</span></h1>
                     <p class="text-[9px] md:text-[10px] text-thm-mut flex items-center mt-0.5 tracking-wider uppercase truncate max-w-[100px] sm:max-w-none">
-                        <span class="h-1.5 w-1.5 bg-thm-pri mr-1.5 animate-ping shadow-glow rounded-full"></span>
-                        ALIAS: <span id="display-name" class="font-bold text-thm-txt ml-1"></span>
+                        <span class="h-1.5 w-1.5 bg-thm-pri mr-1.5 animate-ping shadow-glow rounded-full"></span>ALIAS: <span id="display-name" class="font-bold text-thm-txt ml-1"></span>
                     </p>
                 </div>
             </div>
 
             <div class="flex items-center space-x-2 md:space-x-3">
                 <div class="relative inline-block text-left z-30">
-                    <button id="theme-dropdown-btn" class="bg-thm-main border border-thm-pri text-thm-pri px-2.5 md:px-3.5 py-2 text-xs font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-pri/10 transition-all flex items-center gap-1.5 shadow-glow focus:outline-none active:scale-95">
-                        <i class="fa-solid fa-palette text-xs"></i>
-                        <span class="hidden sm:inline">Theme</span>
-                        <i class="fa-solid fa-caret-down text-[10px]"></i>
+                    <button id="theme-dropdown-btn" class="bg-thm-main border border-thm-pri text-thm-pri px-2.5 py-2 text-xs font-bold font-head uppercase tracking-wider rounded-btn hover:bg-thm-pri/10 flex items-center gap-1.5 shadow-glow">
+                        <i class="fa-solid fa-palette text-xs"></i><span class="hidden sm:inline">Theme</span><i class="fa-solid fa-caret-down text-[10px]"></i>
                     </button>
-                    
-                    <div id="theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-thm-panel border-2 border-thm-pri rounded-btn shadow-xl py-1.5 z-40 transition-all">
-                        <button onclick="setTheme('theme-normal'); toggleThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#f8fafc] hover:bg-indigo-500/10 flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Normal Theme
-                        </button>
-                        <button onclick="setTheme('theme-cyber'); toggleThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#00D9FF] hover:bg-[#00D9FF]/10 flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-sm bg-[#00D9FF]"></span> Cyber Theme
-                        </button>
-                        <button onclick="setTheme('theme-hacker'); toggleThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#00FF41] hover:bg-[#00FF41]/10 flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-sm bg-[#00FF41]"></span> Hacker Theme
-                        </button>
+                    <div id="theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-thm-panel border-2 border-thm-pri rounded-btn shadow-xl py-1.5 z-40">
+                        <button onclick="setTheme('theme-normal'); toggleThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#f8fafc] hover:bg-indigo-500/10 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Normal Theme</button>
+                        <button onclick="setTheme('theme-cyber'); toggleThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#00D9FF] hover:bg-[#00D9FF]/10 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm bg-[#00D9FF]"></span> Cyber Theme</button>
+                        <button onclick="setTheme('theme-hacker'); toggleThemeDropdown();" class="w-full text-left px-4 py-2 text-xs font-bold font-head text-[#00FF41] hover:bg-[#00FF41]/10 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm bg-[#00FF41]"></span> Hacker Theme</button>
                     </div>
                 </div>
-
-                <button id="mobile-sidebar-toggle" class="md:hidden bg-thm-main border border-thm-pri text-thm-pri p-2.5 rounded-btn transition-all active:scale-95 shadow-glow">
-                    <i class="fa-solid fa-users text-sm"></i>
-                </button>
+                <button id="mobile-sidebar-toggle" class="md:hidden bg-thm-main border border-thm-pri text-thm-pri p-2.5 rounded-btn shadow-glow"><i class="fa-solid fa-users text-sm"></i></button>
             </div>
         </header>
 
-        <main class="flex-grow flex w-full mx-auto relative overflow-hidden">
-            
-            <section id="sidebar-panel" class="w-64 bg-thm-panel border-r-2 border-thm-bdr flex flex-col absolute md:static inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out z-20 md:z-0 shrink-0 h-full">
+        <main class="flex-grow flex w-full mx-auto relative overflow-hidden h-[calc(100vh-80px)]">
+            <section id="sidebar-panel" class="w-64 bg-thm-panel border-r-2 border-thm-bdr flex flex-col absolute md:static inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out z-20 shrink-0 h-full">
                 <div class="p-5 border-b border-thm-bdr/30 flex items-center justify-between shrink-0 bg-thm-panel">
                     <h3 class="text-[10px] font-bold uppercase tracking-widest text-thm-pri flex items-center justify-between w-full font-head">
-                        <span>NETWORK PEERS</span>
-                        <span id="user-count-badge" class="bg-thm-pri/10 text-thm-pri px-2 py-0.5 rounded-btn border border-thm-pri/20 font-bold">0</span>
+                        <span>NETWORK PEERS</span><span id="user-count-badge" class="bg-thm-pri/10 text-thm-pri px-2 py-0.5 rounded-btn border border-thm-pri/20">0</span>
                     </h3>
                 </div>
                 <div id="active-users-list" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-2 bg-thm-main/40"></div>
@@ -323,8 +265,8 @@
             <div id="sidebar-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-15 hidden md:hidden"></div>
 
             <section class="flex-1 bg-black/10 flex flex-col overflow-hidden h-full relative p-2 md:p-4">
-                
                 <div class="flex-grow flex flex-col bg-thm-panel/30 border border-thm-bdr/30 relative overflow-hidden h-full rounded-main">
+                    
                     <div class="bg-thm-panel/50 border-b border-thm-bdr/20 px-4 py-2 flex items-center justify-between text-[10px] text-thm-pri/70 tracking-widest font-bold font-head">
                         <div><i class="fa-solid fa-shield-halved mr-1.5 animate-pulse"></i> SECURE_GRID_STREAM</div>
                         <div id="transmission-speed"><i class="fa-solid fa-wifi mr-1"></i> SOCKET_SYNC_100%</div>
@@ -332,25 +274,24 @@
 
                     <div class="theme-deco absolute top-0 left-0 w-2 h-2 border-t border-l border-thm-pri"></div>
                     <div class="theme-deco absolute top-0 right-0 w-2 h-2 border-t border-r border-thm-pri"></div>
-                    <div class="theme-deco absolute bottom-0 left-0 w-2 h-2 border-b border-l border-thm-pri"></div>
-                    <div class="theme-deco absolute bottom-0 right-0 w-2 h-2 border-b border-r border-thm-pri"></div>
 
-                    <div id="messages-container" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-4"></div>
+                    <div id="messages-container" class="flex-1 p-4 overflow-y-auto chat-scroll space-y-4 relative"></div>
+
+                    <button id="scroll-bottom-btn" class="hidden absolute bottom-14 right-6 bg-thm-panel border border-thm-pri text-thm-pri w-9 h-9 rounded-full flex items-center justify-center shadow-glow hover:bg-thm-pri hover:text-thm-main transition-all z-10 animate-bounce">
+                        <i class="fa-solid fa-arrow-down text-xs"></i>
+                    </button>
+
+                    <div id="typing-indicator-box" class="h-6 px-4 text-[9px] font-bold text-thm-pri uppercase tracking-widest flex items-center gap-1.5 bg-thm-main/40 border-t border-thm-bdr/10 italic"></div>
                 </div>
 
                 <form id="chat-form" class="mt-2 p-3 bg-thm-panel border border-thm-bdr/50 flex items-center gap-2.5 shrink-0 relative rounded-main">
                     <div class="theme-deco absolute -top-3 left-4 bg-thm-panel border border-thm-bdr/30 text-thm-pri text-[8px] px-2 py-0.5 font-bold tracking-widest font-head">TRANSMIT_SEC_01</div>
                     
-                    <input 
-                        id="message-input"
-                        type="text" 
-                        autocomplete="off" 
-                        placeholder="ENTER SECURE PACKET CONTENT..." 
-                        class="flex-1 bg-thm-input border border-thm-bdr/40 focus:border-[#00D9FF] rounded-btn px-4 py-3 text-xs md:text-sm focus:outline-none text-thm-txt placeholder-thm-mut tracking-wider transition-all"
-                    />
-                    <button type="submit" class="bg-thm-pri hover:bg-thm-priHov text-thm-main hover:text-thm-txt font-extrabold px-6 py-3.5 border border-thm-pri/60 flex items-center justify-center transition-all active:scale-95 shrink-0 shadow-glow rounded-btn">
-                        <i class="fa-solid fa-paper-plane text-xs md:text-sm md:mr-2"></i>
-                        <span class="text-xs uppercase font-head font-extrabold tracking-widest hidden sm:inline">TRANSMIT</span>
+                    <input id="message-input" type="url" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="ENTER SECURE PACKET CONTENT..." class="flex-1 bg-thm-input border border-thm-bdr/40 focus:border-[#00D9FF] rounded-btn px-4 py-3 text-xs md:text-sm focus:outline-none text-thm-txt placeholder-thm-mut tracking-wider" />
+                    
+                    <button type="submit" class="bg-thm-pri hover:bg-thm-priHov text-thm-main hover:text-thm-txt font-extrabold px-6 py-3.5 border border-thm-pri/60 flex items-center justify-center shadow-glow rounded-btn transition-all">
+                        <i class="fa-solid fa-paper-plane text-xs md:mr-2"></i>
+                        <span class="text-xs uppercase font-head tracking-widest hidden sm:inline">TRANSMIT</span>
                     </button>
                 </form>
             </section>
@@ -359,112 +300,54 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        // Dynamic Fallback Guard for Socket.io (Runs ONLY if real script above failed to load/404)
         if (typeof io === 'undefined') {
-            console.log("Offline preview mode fallback active...");
-            window.io = function() {
-                const listeners = {};
-                return {
-                    on: function(event, callback) {
-                        listeners[event] = callback;
-                    },
-                    emit: function(event, data) {
-                        console.log("Mock emitted:", event, data);
-                        if (event === 'chat message') {
-                            const self = this;
-                            setTimeout(() => {
-                                if (listeners['chat message']) {
-                                    listeners['chat message']({
-                                        id: 'msg_mock_' + Date.now(),
-                                        username: myUsername || "ANONYMOUS",
-                                        text: data,
-                                        timestamp: new Date().toLocaleTimeString('en-IN', {
-                                            hour: '2-digit',
-                                            minute: '2-digit',
-                                            hour12: true
-                                        }),
-                                        edited: false
-                                    });
-                                }
-                            }, 100);
-                        }
-                    }
-                };
-            };
+            window.io = function() { return { on: function(){}, emit: function(){} }; };
         }
     </script>
     <script>
-        // --- MULTI-THEME ENGINE CONTROLLER ---
         function setTheme(themeName) {
             document.body.className = `text-thm-txt min-h-screen flex flex-col antialiased relative font-body overflow-hidden transition-colors duration-500 ${themeName}`;
             localStorage.setItem('guptlok-theme', themeName);
         }
+        setTheme(localStorage.getItem('guptlok-theme') || 'theme-cyber');
 
-        const savedTheme = localStorage.getItem('guptlok-theme') || 'theme-cyber';
-        setTheme(savedTheme);
-
-        // --- TOP-RIGHT DROPDOWNS HANDLERS ---
         const dropdownBtn = document.getElementById('theme-dropdown-btn');
         const dropdownMenu = document.getElementById('theme-dropdown-menu');
         const loginDropdownBtn = document.getElementById('login-theme-dropdown-btn');
         const loginDropdownMenu = document.getElementById('login-theme-dropdown-menu');
 
-        function toggleThemeDropdown() {
-            if(dropdownMenu) dropdownMenu.classList.toggle('hidden');
-        }
+        function toggleThemeDropdown() { if(dropdownMenu) dropdownMenu.classList.toggle('hidden'); }
+        function toggleLoginThemeDropdown() { if(loginDropdownMenu) loginDropdownMenu.classList.toggle('hidden'); }
 
-        function toggleLoginThemeDropdown() {
-            if(loginDropdownMenu) loginDropdownMenu.classList.toggle('hidden');
-        }
+        if (dropdownBtn) dropdownBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleThemeDropdown(); });
+        if (loginDropdownBtn) loginDropdownBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleLoginThemeDropdown(); });
 
-        if (dropdownBtn) {
-            dropdownBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleThemeDropdown();
-            });
-        }
-
-        if (loginDropdownBtn) {
-            loginDropdownBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleLoginThemeDropdown();
-            });
-        }
-
-        document.addEventListener('click', function() {
-            if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
-                dropdownMenu.classList.add('hidden');
-            }
-            if (loginDropdownMenu && !loginDropdownMenu.classList.contains('hidden')) {
-                loginDropdownMenu.classList.add('hidden');
-            }
+        document.addEventListener('click', () => {
+            if (dropdownMenu) dropdownMenu.classList.add('hidden');
+            if (loginDropdownMenu) loginDropdownMenu.classList.add('hidden');
         });
 
-        // --- CORE SOCKET COMMUNICATOR ENGINE ---
         const socket = io();
         let myUsername = "";
-        let currentlyEditingMsgId = ""; 
+        let currentlyEditingMsgId = "";
+        let typingTimeout = null;
 
         const usernameModal = document.getElementById('username-modal');
         const usernameForm = document.getElementById('username-form');
         const usernameInput = document.getElementById('username-input');
         const chatLayout = document.getElementById('chat-layout');
         const displayName = document.getElementById('display-name');
-        
         const chatForm = document.getElementById('chat-form');
         const messageInput = document.getElementById('message-input');
         const container = document.getElementById('messages-container');
         const usersListContainer = document.getElementById('active-users-list');
         const userCountBadge = document.getElementById('user-count-badge');
+        const typingBox = document.getElementById('typing-indicator-box');
+        const scrollBottomBtn = document.getElementById('scroll-bottom-btn');
 
         const sidebarPanel = document.getElementById('sidebar-panel');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
         const mobileToggle = document.getElementById('mobile-sidebar-toggle');
-        const transmissionSpeed = document.getElementById('transmission-speed');
-
-        const editModal = document.getElementById('edit-modal');
-        const editMessageInput = document.getElementById('edit-message-input');
-        const saveEditBtn = document.getElementById('save-edit-btn');
 
         function toggleMobileSidebar() {
             sidebarPanel.classList.toggle('-translate-x-full');
@@ -472,6 +355,20 @@
         }
         if(mobileToggle) mobileToggle.addEventListener('click', toggleMobileSidebar);
         if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleMobileSidebar);
+
+        // Track user scroll activity to trigger smooth bottom jump button
+        container.addEventListener('scroll', () => {
+            const distanceToBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
+            if (distanceToBottom > 250) {
+                scrollBottomBtn.classList.remove('hidden');
+            } else {
+                scrollBottomBtn.classList.add('hidden');
+            }
+        });
+
+        scrollBottomBtn.addEventListener('click', () => {
+            container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+        });
 
         usernameForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -485,54 +382,44 @@
             }
         });
 
+        // Typing state engine broadcast management triggers
+        messageInput.addEventListener('input', () => {
+            socket.emit('typing');
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                socket.emit('stop typing');
+            }, 1500);
+        });
+
         chatForm.addEventListener('submit', function(e) {
             e.preventDefault();
             if (messageInput.value.trim()) {
+                socket.emit('stop typing');
                 socket.emit('chat message', messageInput.value);
-
-                if (transmissionSpeed) {
-                    transmissionSpeed.classList.add('text-thm-pri', 'animate-ping');
-                    setTimeout(() => {
-                        transmissionSpeed.classList.remove('text-thm-pri', 'animate-ping');
-                    }, 500);
-                }
-
                 messageInput.value = '';
             }
         });
 
-        // Auto Scroll viewport when mobile user focuses input field to secure visible typing text
-        if(messageInput) {
-            messageInput.addEventListener('focus', () => {
-                setTimeout(() => {
-                    container.scrollTop = container.scrollHeight;
-                }, 300);
-            });
-        }
+        messageInput.addEventListener('focus', () => {
+            setTimeout(() => container.scrollTop = container.scrollHeight, 250);
+        });
 
         function appendMessageElement(data) {
             const isMe = data.username === myUsername;
             const alignment = isMe ? 'justify-end' : 'justify-start';
-            
             const bubbleStyle = isMe 
                 ? "bg-thm-mBg border-2 border-thm-mBdr text-thm-mTxt shadow-glow rounded-main rounded-tr-none" 
                 : "bg-thm-oBg border-2 border-thm-oBdr text-thm-oTxt rounded-main rounded-tl-none";
             
             const label = isMe ? 'YOU' : data.username;
             const glowText = isMe ? 'text-thm-pri' : 'text-thm-sec';
-            
             const finalId = data.id || 'msg_' + Math.random().toString(36).substr(2, 5);
             const safeTextContent = escapeHtml(data.text).replace(/'/g, "\\'");
 
-            // Touch support layout with enhanced gaps and padding triggers for mobile clicks
             const controlButtonsPanel = isMe ? `
                 <div class="msg-action-trigger opacity-0 flex items-center gap-3 ml-3 transition-opacity duration-150">
-                    <button onclick="openEditModal('${finalId}', '${safeTextContent}')" class="text-thm-mut hover:text-[#00D9FF] text-sm md:text-xs p-1 transition-colors" title="Edit message">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
-                    <button onclick="triggerDeleteMessage('${finalId}')" class="text-thm-mut hover:text-red-500 text-sm md:text-xs p-1 transition-colors" title="Delete message">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
+                    <button onclick="openEditModal('${finalId}', '${safeTextContent}')" class="text-thm-mut hover:text-[#00D9FF] text-sm md:text-xs p-1" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button onclick="triggerDeleteMessage('${finalId}')" class="text-thm-mut hover:text-red-500 text-sm md:text-xs p-1" title="Delete"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
             ` : '';
 
@@ -543,7 +430,7 @@
                             <span class="text-[9px] font-bold ${glowText} tracking-widest block mb-1.5 ml-1 font-head uppercase">${label}</span>
                             ${controlButtonsPanel}
                         </div>
-                        <div class="${bubbleStyle} px-4 py-3 text-xs md:text-sm break-words transition-colors duration-300 relative cyber-clip-sm">
+                        <div class="${bubbleStyle} px-4 py-3 text-xs md:text-sm break-words relative cyber-clip-sm">
                             <div class="theme-deco absolute top-0 right-0 w-2.5 h-2.5 ${isMe ? 'bg-thm-pri shadow-glow' : 'bg-thm-sec'}"></div>
                             <span class="msg-body-content">${escapeHtml(data.text)}</span>
                         </div>
@@ -556,33 +443,62 @@
             container.insertAdjacentHTML('beforeend', msgHtml);
         }
 
-        // --- WINDOW INLINE ACTIONS FOR EDIT/DELETE ---
+        // --- INTERACTIVE UI LOGS SYSTEM NOTIFICATION ---
+        socket.on('system notification', function(text) {
+            const systemHtml = `
+                <div class="flex justify-center my-3 animate-pulse px-4">
+                    <div class="bg-thm-panel/40 border border-thm-bdr/20 text-thm-mut text-[8px] md:text-[9px] px-4 py-1.5 tracking-[0.2em] font-head font-bold uppercase rounded-btn text-center max-w-full truncate">
+                        <i class="fa-solid fa-circle-notch animate-spin mr-1.5 text-thm-pri"></i> ${text}
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', systemHtml);
+            container.scrollTop = container.scrollHeight;
+        });
+
+        // --- LIVE REALTIME TYPING FEED HANDLERS ---
+        let currentTypingPeers = {};
+        socket.on('user typing', function(data) {
+            currentTypingPeers[data.id] = data.username;
+            renderTypingBox();
+        });
+
+        socket.on('user stop typing', function(id) {
+            delete currentTypingPeers[id];
+            renderTypingBox();
+        });
+
+        function renderTypingBox() {
+            const activeList = Object.values(currentTypingPeers);
+            if(activeList.length > 0) {
+                typingBox.innerHTML = `<span class="h-1.5 w-1.5 rounded-full bg-thm-pri animate-ping"></span> 
+                <span>${activeList.join(', ')} is typing<span class="blink-fast">...</span></span>`;
+            } else {
+                typingBox.innerHTML = '';
+            }
+        }
+
         window.openEditModal = function(id, currentText) {
             currentlyEditingMsgId = id;
             editMessageInput.value = currentText;
-            editModal.classList.remove('hidden');
-            editModal.classList.add('flex');
+            document.getElementById('edit-modal').classList.remove('hidden');
+            document.getElementById('edit-modal').classList.add('flex');
             setTimeout(() => editMessageInput.focus(), 50);
         };
 
         window.closeEditModal = function() {
-            editModal.classList.add('hidden');
-            editModal.classList.remove('flex');
+            document.getElementById('edit-modal').classList.add('hidden');
+            document.getElementById('edit-modal').classList.remove('flex');
             currentlyEditingMsgId = "";
         };
 
-        if (saveEditBtn) {
-            saveEditBtn.addEventListener('click', function() {
-                const updatedContentText = editMessageInput.value.trim();
-                if (updatedContentText && currentlyEditingMsgId) {
-                    socket.emit('edit message', {
-                        id: currentlyEditingMsgId,
-                        text: updatedContentText
-                    });
-                    closeEditModal();
-                }
-            });
-        }
+        document.getElementById('save-edit-btn').addEventListener('click', () => {
+            const updatedContentText = editMessageInput.value.trim();
+            if (updatedContentText && currentlyEditingMsgId) {
+                socket.emit('edit message', { id: currentlyEditingMsgId, text: updatedContentText });
+                closeEditModal();
+            }
+        });
 
         window.triggerDeleteMessage = function(id) {
             if (confirm("Are you sure you want to delete this message?")) {
@@ -590,7 +506,6 @@
             }
         };
 
-        // --- SOCKET SIGNALS INTERCEPTORS ---
         socket.on('chat message', function(data) {
             appendMessageElement(data);
             container.scrollTop = container.scrollHeight;
@@ -607,15 +522,8 @@
             if (targetElement) {
                 const textWrapper = targetElement.querySelector('.msg-body-content');
                 const editedIndicator = targetElement.querySelector('.msg-edited-status');
-                
                 if (textWrapper) textWrapper.textContent = updatedData.text;
                 if (editedIndicator) editedIndicator.classList.remove('hidden');
-                
-                const editBtn = targetElement.querySelector('.msg-action-trigger button');
-                if (editBtn) {
-                    const cleanEscapedText = escapeHtml(updatedData.text).replace(/'/g, "\\'");
-                    editBtn.setAttribute('onclick', `openEditModal('${updatedData.id}', '${cleanEscapedText}')`);
-                }
             }
         });
 
@@ -630,19 +538,15 @@
         socket.on('update user list', function(activeUsernamesArray) {
             usersListContainer.innerHTML = ''; 
             userCountBadge.textContent = `${activeUsernamesArray.length}`;
-
             activeUsernamesArray.forEach(username => {
                 const isMe = username === myUsername;
                 const activeHtml = `
-                    <div class="flex items-center justify-between py-2.5 px-3 bg-thm-panel border ${isMe ? 'border-thm-pri shadow-glow' : 'border-thm-bdr/50'} rounded-btn transition-colors duration-300">
+                    <div class="flex items-center justify-between py-2.5 px-3 bg-thm-panel border ${isMe ? 'border-thm-pri shadow-glow' : 'border-thm-bdr/50'} rounded-btn">
                         <div class="flex items-center space-x-2.5 min-w-0">
                             <span class="w-2 h-2 rounded-full ${isMe ? 'bg-thm-pri shadow-glow' : 'bg-[#2563EB]'}"></span>
-                            <h4 class="text-xs font-bold truncate tracking-wider font-head ${isMe ? 'text-thm-pri' : 'text-thm-txt'}">
-                                ${username} ${isMe ? '<span class="text-[8px] text-[#2563EB] font-mono ml-1">_LOCAL</span>' : ''}
-                            </h4>
+                            <h4 class="text-xs font-bold truncate font-head ${isMe ? 'text-thm-pri' : 'text-thm-txt'}">${username}</h4>
                         </div>
-                    </div>
-                `;
+                    </div>`;
                 usersListContainer.insertAdjacentHTML('beforeend', activeHtml);
             });
         });

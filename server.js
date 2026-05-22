@@ -10,7 +10,6 @@ app.use(express.static(__dirname + '/public'));
 const historyFilePath = path.join(__dirname, 'messages.json');
 const users = {};
 
-// India (IST) ka perfect time lane ke liye tool
 function getIndiaTime() {
     return new Date().toLocaleTimeString('en-IN', {
         timeZone: 'Asia/Kolkata',
@@ -43,7 +42,6 @@ function saveToHistory(messageObject) {
     }
 }
 
-// History file ko rewrite karne ka helper function (For Edit & Delete operations)
 function rewriteHistoryFile(updatedHistory) {
     try {
         fs.writeFileSync(historyFilePath, JSON.stringify(updatedHistory, null, 2), 'utf8');
@@ -56,6 +54,9 @@ io.on('connection', (socket) => {
     socket.on('store username', (username) => {
         users[socket.id] = username;
         io.emit('update user list', Object.values(users));
+        
+        // System Event: user joined chat broadast
+        io.emit('system notification', `${username} ESTABLISHED CONNECTION`);
 
         const pastMessages = getChatHistory();
         socket.emit('load history', pastMessages);
@@ -64,7 +65,6 @@ io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
         const senderName = users[socket.id] || "Anonymous";
 
-        // Message object mein Unique ID aur edited status add kiya
         const messageData = {
             id: 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
             text: msg,
@@ -77,7 +77,18 @@ io.on('connection', (socket) => {
         io.emit('chat message', messageData);
     });
 
-    // --- MESSAGE EDIT HANDLING ---
+    // --- TYPING INDICATOR OPERATIONS ---
+    socket.on('typing', () => {
+        const username = users[socket.id];
+        if (username) {
+            socket.broadcast.emit('user typing', { id: socket.id, username: username });
+        }
+    });
+
+    socket.on('stop typing', () => {
+        socket.broadcast.emit('user stop typing', socket.id);
+    });
+
     socket.on('edit message', (data) => {
         let currentHistory = getChatHistory();
         const targetIndex = currentHistory.findIndex(m => m.id === data.id);
@@ -85,33 +96,29 @@ io.on('connection', (socket) => {
         if (targetIndex !== -1) {
             currentHistory[targetIndex].text = data.text;
             currentHistory[targetIndex].edited = true;
-            
             rewriteHistoryFile(currentHistory);
-            
-            // Sabhi connected clients ko update bhejo
             io.emit('message edited', { id: data.id, text: data.text });
         }
     });
 
-    // --- MESSAGE DELETE HANDLING ---
     socket.on('delete message', (msgId) => {
         let currentHistory = getChatHistory();
         const initialLength = currentHistory.length;
-        
         currentHistory = currentHistory.filter(m => m.id !== msgId);
         
         if (currentHistory.length !== initialLength) {
             rewriteHistoryFile(currentHistory);
-            
-            // Sabhi clients ke UI se element remove karne ke liye emit karo
             io.emit('message deleted', msgId);
         }
     });
 
     socket.on('disconnect', () => {
         if (users[socket.id]) {
+            const leftUser = users[socket.id];
+            io.emit('system notification', `${leftUser} LINK SEVERED / DISCONNECTED`);
             delete users[socket.id];
             io.emit('update user list', Object.values(users));
+            io.emit('user stop typing', socket.id);
         }
     });
 });
