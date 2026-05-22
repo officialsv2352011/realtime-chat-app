@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
         users[socket.id] = username;
         io.emit('update user list', Object.values(users));
         
-        // System Event: user joined chat broadast
+        // System Log: User connection notification
         io.emit('system notification', `${username} ESTABLISHED CONNECTION`);
 
         const pastMessages = getChatHistory();
@@ -77,7 +77,7 @@ io.on('connection', (socket) => {
         io.emit('chat message', messageData);
     });
 
-    // --- TYPING INDICATOR OPERATIONS ---
+    // --- LIVE TYPING ENGINES ---
     socket.on('typing', () => {
         const username = users[socket.id];
         if (username) {
@@ -89,6 +89,7 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('user stop typing', socket.id);
     });
 
+    // --- MESSAGE EDIT HANDLING ---
     socket.on('edit message', (data) => {
         let currentHistory = getChatHistory();
         const targetIndex = currentHistory.findIndex(m => m.id === data.id);
@@ -101,6 +102,7 @@ io.on('connection', (socket) => {
         }
     });
 
+    // --- MESSAGE DELETE HANDLING ---
     socket.on('delete message', (msgId) => {
         let currentHistory = getChatHistory();
         const initialLength = currentHistory.length;

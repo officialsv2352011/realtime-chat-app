@@ -16,6 +16,7 @@
             --bg-pattern: none;
         }
 
+        /* THEME 1: NORMAL (Modern Dark Mode) */
         .theme-normal {
             --bg-main: #0f172a;
             --bg-panel: #1e293b;
@@ -40,6 +41,7 @@
             --bg-pattern: none;
         }
 
+        /* THEME 2: CYBER (Deep Cyber-Blue Neon) */
         .theme-cyber {
             --bg-main: #0B1020;
             --bg-panel: #111827;
@@ -64,6 +66,7 @@
             --bg-pattern: linear-gradient(rgba(0, 217, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 217, 255, 0.04) 1px, transparent 1px);
         }
 
+        /* THEME 3: HACKER (Matrix Green Terminal) */
         .theme-hacker {
             --bg-main: #000000;
             --bg-panel: #050505;
@@ -131,7 +134,6 @@
             .msg-action-trigger { opacity: 1 !important; }
         }
 
-        /* Continuous text blink for typing notification */
         .blink-fast { animation: blink 0.8s infinite steps(2, start); }
         @keyframes blink { to { visibility: hidden; } }
     </style>
@@ -203,7 +205,7 @@
                 <h3 class="text-2xl font-black text-thm-pri tracking-wider mb-2 font-head uppercase">System Access</h3>
                 <p class="text-xs text-thm-mut mb-8 uppercase tracking-wide">Enter network alias to establish linkage</p>
                 <form id="username-form" class="space-y-5">
-                    <input id="username-input" type="url" required maxlength="15" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="ENTER NICKNAME_PROMPT..." class="w-full bg-thm-input border border-thm-bdr rounded-btn px-4 py-3.5 text-sm focus:outline-none focus:border-thm-pri text-thm-txt text-center font-bold tracking-wider placeholder-thm-mut uppercase" />
+                    <input id="username-input" type="text" inputmode="search" required maxlength="15" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="ENTER NICKNAME_PROMPT..." class="w-full bg-thm-input border border-thm-bdr rounded-btn px-4 py-3.5 text-sm focus:outline-none focus:border-thm-pri text-thm-txt text-center font-bold tracking-wider placeholder-thm-mut uppercase" />
                     <button type="submit" class="w-full bg-thm-pri hover:bg-thm-priHov text-thm-main hover:text-thm-txt font-extrabold py-3.5 tracking-widest text-xs uppercase font-head shadow-glow rounded-btn transition-all active:scale-95">INITIALIZE NETWORK</button>
                 </form>
             </div>
@@ -287,7 +289,7 @@
                 <form id="chat-form" class="mt-2 p-3 bg-thm-panel border border-thm-bdr/50 flex items-center gap-2.5 shrink-0 relative rounded-main">
                     <div class="theme-deco absolute -top-3 left-4 bg-thm-panel border border-thm-bdr/30 text-thm-pri text-[8px] px-2 py-0.5 font-bold tracking-widest font-head">TRANSMIT_SEC_01</div>
                     
-                    <input id="message-input" type="url" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="ENTER SECURE PACKET CONTENT..." class="flex-1 bg-thm-input border border-thm-bdr/40 focus:border-[#00D9FF] rounded-btn px-4 py-3 text-xs md:text-sm focus:outline-none text-thm-txt placeholder-thm-mut tracking-wider" />
+                    <input id="message-input" type="text" inputmode="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="ENTER SECURE PACKET CONTENT..." class="flex-1 bg-thm-input border border-thm-bdr/40 focus:border-[#00D9FF] rounded-btn px-4 py-3 text-xs md:text-sm focus:outline-none text-thm-txt placeholder-thm-mut tracking-wider" />
                     
                     <button type="submit" class="bg-thm-pri hover:bg-thm-priHov text-thm-main hover:text-thm-txt font-extrabold px-6 py-3.5 border border-thm-pri/60 flex items-center justify-center shadow-glow rounded-btn transition-all">
                         <i class="fa-solid fa-paper-plane text-xs md:mr-2"></i>
@@ -356,7 +358,6 @@
         if(mobileToggle) mobileToggle.addEventListener('click', toggleMobileSidebar);
         if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleMobileSidebar);
 
-        // Track user scroll activity to trigger smooth bottom jump button
         container.addEventListener('scroll', () => {
             const distanceToBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
             if (distanceToBottom > 250) {
@@ -382,7 +383,6 @@
             }
         });
 
-        // Typing state engine broadcast management triggers
         messageInput.addEventListener('input', () => {
             socket.emit('typing');
             clearTimeout(typingTimeout);
@@ -443,7 +443,7 @@
             container.insertAdjacentHTML('beforeend', msgHtml);
         }
 
-        // --- INTERACTIVE UI LOGS SYSTEM NOTIFICATION ---
+        // --- SYSTEM LOGGER ALERTS ---
         socket.on('system notification', function(text) {
             const systemHtml = `
                 <div class="flex justify-center my-3 animate-pulse px-4">
@@ -456,7 +456,7 @@
             container.scrollTop = container.scrollHeight;
         });
 
-        // --- LIVE REALTIME TYPING FEED HANDLERS ---
+        // --- LIVE REALTIME TYPING INDICATORS ---
         let currentTypingPeers = {};
         socket.on('user typing', function(data) {
             currentTypingPeers[data.id] = data.username;
