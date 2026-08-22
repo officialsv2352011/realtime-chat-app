@@ -2,12 +2,29 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const fs = require('fs');
-const path = require('path');
+const mongoose = require('mongoose');
 
 app.use(express.static(__dirname + '/public'));
 
-const historyFilePath = path.join(__dirname, 'messages.json');
+// --- MONGODB CONNECTION SETUP ---
+// Local MongoDB ya Mongo Atlas String use karein
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/guptlok';
+
+mongoose.connect(MONGO_URI)
+    .then(() => console.log('Connected successfully to MongoDB Database'))
+    .catch((err) => console.error('MongoDB Connection Error:', err));
+
+// --- MESSAGE SCHEMA & MODEL ---
+const messageSchema = new mongoose.Schema({
+    id: String,
+    text: String,
+    username: String,
+    timestamp: String,
+    edited: { type: Boolean, default: false }
+}, { timestamps: true });
+
+const Message = mongoose.model('Message', messageSchema);
+
 const users = {};
 
 function getIndiaTime() {
@@ -19,51 +36,24 @@ function getIndiaTime() {
     });
 }
 
-function getChatHistory() {
-    try {
-        if (fs.existsSync(historyFilePath)) {
-            const fileData = fs.readFileSync(historyFilePath, 'utf8');
-            return JSON.parse(fileData || '[]');
-        }
-    } catch (err) {
-        console.error("Error reading history file:", err);
-    }
-    return [];
-}
-
-function saveToHistory(messageObject) {
-    try {
-        const currentHistory = getChatHistory();
-        currentHistory.push(messageObject);
-        if (currentHistory.length > 100) currentHistory.shift(); 
-        fs.writeFileSync(historyFilePath, JSON.stringify(currentHistory, null, 2), 'utf8');
-    } catch (err) {
-        console.error("Error writing to history file:", err);
-    }
-}
-
-function rewriteHistoryFile(updatedHistory) {
-    try {
-        fs.writeFileSync(historyFilePath, JSON.stringify(updatedHistory, null, 2), 'utf8');
-    } catch (err) {
-        console.error("Error updating history file:", err);
-    }
-}
-
 io.on('connection', (socket) => {
-    socket.on('store username', (username) => {
+    socket.on('store username', async (username) => {
         users[socket.id] = username;
         io.emit('update user list', Object.values(users));
         
-        // System Log: User connection notification
         io.emit('system notification', `${username} ESTABLISHED CONNECTION`);
 
-        const pastMessages = getChatHistory();
-        socket.emit('load history', pastMessages);
+        // MongoDB se last 100 messages load karo
+        try {
+            const pastMessages = await Message.find().sort({ createdAt: 1 }).limit(100);
+            socket.emit('load history', pastMessages);
+        } catch (err) {
+            console.error('Error fetching chat history:', err);
+        }
     });
 
-    socket.on('chat message', (msg) => {
-        const senderName = users[socket.id] || "Anonymous";
+    socket.on('chat message', async (msg) => {
+        const senderName = users[socket.id] || 'Anonymous';
 
         const messageData = {
             id: 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
@@ -73,8 +63,14 @@ io.on('connection', (socket) => {
             edited: false
         };
 
-        saveToHistory(messageData);
-        io.emit('chat message', messageData);
+        // MongoDB mein message save karo
+        try {
+            const newMsg = new Message(messageData);
+            await newMsg.save();
+            io.emit('chat message', messageData);
+        } catch (err) {
+            console.error('Error saving message:', err);
+        }
     });
 
     // --- LIVE TYPING ENGINES ---
@@ -90,27 +86,22 @@ io.on('connection', (socket) => {
     });
 
     // --- MESSAGE EDIT HANDLING ---
-    socket.on('edit message', (data) => {
-        let currentHistory = getChatHistory();
-        const targetIndex = currentHistory.findIndex(m => m.id === data.id);
-        
-        if (targetIndex !== -1) {
-            currentHistory[targetIndex].text = data.text;
-            currentHistory[targetIndex].edited = true;
-            rewriteHistoryFile(currentHistory);
+    socket.on('edit message', async (data) => {
+        try {
+            await Message.findOneAndUpdate({ id: data.id }, { text: data.text, edited: true });
             io.emit('message edited', { id: data.id, text: data.text });
+        } catch (err) {
+            console.error('Error editing message:', err);
         }
     });
 
     // --- MESSAGE DELETE HANDLING ---
-    socket.on('delete message', (msgId) => {
-        let currentHistory = getChatHistory();
-        const initialLength = currentHistory.length;
-        currentHistory = currentHistory.filter(m => m.id !== msgId);
-        
-        if (currentHistory.length !== initialLength) {
-            rewriteHistoryFile(currentHistory);
+    socket.on('delete message', async (msgId) => {
+        try {
+            await Message.findOneAndDelete({ id: msgId });
             io.emit('message deleted', msgId);
+        } catch (err) {
+            console.error('Error deleting message:', err);
         }
     });
 
