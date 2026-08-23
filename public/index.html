@@ -329,7 +329,16 @@
             if (loginDropdownMenu) loginDropdownMenu.classList.add('hidden');
         });
 
-        const socket = io();
+        // PEHLI LINE CHANCE KI GAYI HAI (Fast WebSocket connection ke liye):
+        const socket = io({
+            transports: ['websocket'],
+            upgrade: false,
+            reconnection: true,
+            reconnectionAttempts: 10,
+            reconnectionDelay: 1000
+        });
+
+        // Baki aapka SAARA CODE BILKUL SAME RAHEGA:
         let myUsername = "";
         let currentlyEditingMsgId = "";
         let typingTimeout = null;
