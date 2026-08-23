@@ -486,46 +486,42 @@
                 typingBox.innerHTML = '';
             }
         }
-
+        
         window.openEditModal = function(id, currentText) {
             currentlyEditingMsgId = id;
-            editMessageInput.value = currentText;
-            document.getElementById('edit-modal').classList.remove('hidden');
-            document.getElementById('edit-modal').classList.add('flex');
-            setTimeout(() => editMessageInput.focus(), 50);
+            const editInput = document.getElementById('edit-message-input');
+            if (editInput) {
+                editInput.value = currentText;
+            }
+            const modal = document.getElementById('edit-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+            setTimeout(() => {
+                if (editInput) editInput.focus();
+            }, 100);
         };
 
         window.closeEditModal = function() {
-            document.getElementById('edit-modal').classList.add('hidden');
-            document.getElementById('edit-modal').classList.remove('flex');
+            const modal = document.getElementById('edit-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
             currentlyEditingMsgId = "";
         };
 
         document.getElementById('save-edit-btn').addEventListener('click', () => {
-            const updatedContentText = editMessageInput.value.trim();
-            if (updatedContentText && currentlyEditingMsgId) {
-                socket.emit('edit message', { id: currentlyEditingMsgId, text: updatedContentText });
+            const editInput = document.getElementById('edit-message-input');
+            const updatedText = editInput ? editInput.value.trim() : "";
+            if (updatedText && currentlyEditingMsgId) {
+                socket.emit('edit message', { id: currentlyEditingMsgId, text: updatedText });
                 closeEditModal();
             }
         });
 
-        window.triggerDeleteMessage = function(id) {
-            if (confirm("Are you sure you want to delete this message?")) {
-                socket.emit('delete message', id);
-            }
-        };
-
-        socket.on('chat message', function(data) {
-            appendMessageElement(data);
-            container.scrollTop = container.scrollHeight;
-        });
-
-        socket.on('load history', function(historyArray) {
-            container.innerHTML = '';
-            historyArray.forEach(msg => appendMessageElement(msg));
-            container.scrollTop = container.scrollHeight;
-        });
-
+        // Realtime UI Update for Edit Event
         socket.on('message edited', function(updatedData) {
             const targetElement = document.getElementById(`dom_${updatedData.id}`);
             if (targetElement) {

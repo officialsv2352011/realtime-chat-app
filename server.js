@@ -85,13 +85,24 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('user stop typing', socket.id);
     });
 
-    // --- MESSAGE EDIT HANDLING ---
+// --- FIXED MESSAGE EDIT HANDLING ---
     socket.on('edit message', async (data) => {
         try {
-            await Message.findOneAndUpdate({ id: data.id }, { text: data.text, edited: true });
-            io.emit('message edited', { id: data.id, text: data.text });
+            if (!data.id || !data.text) return;
+
+            // Database mein target message update karo
+            const updatedMsg = await Message.findOneAndUpdate(
+                { id: data.id }, 
+                { text: data.text, edited: true },
+                { new: true }
+            );
+
+            if (updatedMsg) {
+                // Saare connected clients ko updated message broadcast karo
+                io.emit('message edited', { id: data.id, text: data.text });
+            }
         } catch (err) {
-            console.error('Error editing message:', err);
+            console.error('Error editing message in MongoDB:', err);
         }
     });
 
